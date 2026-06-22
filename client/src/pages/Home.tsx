@@ -8,8 +8,9 @@ import { httpRequest } from "../interceptor/axiosInterceptor";
 import { useAppContext } from "../App";
 import { 
   Flame, MessageSquare, BookOpen, PenTool, Users, Award, 
-  Layers, Search, TrendingUp, Activity as ActivityIcon, HeartPulse
+  Layers, Search, TrendingUp, Activity as ActivityIcon, HeartPulse, X
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { formatNumber } from "../utils/helper";
 
 const COMMUNITY_CATEGORIES = [
@@ -57,6 +58,8 @@ function HomeContainer({ tag }: { tag: string }) {
   const [communityStats, setCommunityStats] = useState({ members: 0, posts: 0, projects: 0, certs: 0 });
   const [pulseData, setPulseData] = useState<any>(null);
   const [trendingDiscussions, setTrendingDiscussions] = useState<Array<any>>([]);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileStatsOpen, setMobileStatsOpen] = useState(false);
 
   document.title = "Community - NowScripts";
 
@@ -450,6 +453,191 @@ function HomeContainer({ tag }: { tag: string }) {
           </div>
 
         </div>
+      </div>
+
+      {/* Mobile Filters Drawer */}
+      <AnimatePresence>
+        {mobileFiltersOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileFiltersOpen(false)}
+              className="fixed inset-0 bg-black z-40 lg:hidden"
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+              className="fixed inset-y-0 left-0 w-[280px] bg-white z-50 flex flex-col shadow-2xl lg:hidden"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-[#E2E8F0]">
+                <h3 className="font-bold text-[#0F172A]">Filters & Navigation</h3>
+                <button
+                  onClick={() => setMobileFiltersOpen(false)}
+                  className="p-2 text-[#64748B] hover:text-[#0F172A] rounded-md"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+                <div className="mb-8">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-4 pl-3">Community</h3>
+                  <nav className="space-y-1">
+                    {COMMUNITY_CATEGORIES.map(category => (
+                      <button
+                        key={category.id}
+                        onClick={() => {
+                          setActiveCategory(category.id);
+                          setMobileFiltersOpen(false);
+                          if(tag) navigate('/community');
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                          activeCategory === category.id && !tag
+                            ? "bg-[#00C08B]/10 text-[#00C08B]"
+                            : "text-[#475569] hover:bg-white hover:text-[#0F172A]"
+                        }`}
+                      >
+                        {category.icon}
+                        {category.label}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-4 pl-3">Popular Tags</h3>
+                  <div className="flex flex-wrap gap-2 pl-3">
+                    {POPULAR_TAGS.slice(0, 8).map(t => (
+                      <Link 
+                        key={t}
+                        to={`/tag/${t}`}
+                        onClick={() => setMobileFiltersOpen(false)}
+                        className="text-xs font-medium bg-white border border-[#E2E8F0] text-[#64748B] px-2.5 py-1.5 rounded-md hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
+                      >
+                        #{t}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Stats Drawer */}
+      <AnimatePresence>
+        {mobileStatsOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileStatsOpen(false)}
+              className="fixed inset-0 bg-black z-40 xl:hidden"
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+              className="fixed inset-y-0 right-0 w-[320px] bg-[#F8FAFC] z-50 flex flex-col shadow-2xl xl:hidden"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-[#E2E8F0] bg-white">
+                <h3 className="font-bold text-[#0F172A]">Stats & Activity</h3>
+                <button
+                  onClick={() => setMobileStatsOpen(false)}
+                  className="p-2 text-[#64748B] hover:text-[#0F172A] rounded-md"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-6">
+                
+                {/* Online Members Pill */}
+                <div className="flex items-center gap-3 bg-white px-5 py-4 rounded-xl border border-[#E2E8F0] shadow-sm shadow-green-500/5">
+                  <div className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  </div>
+                  <p className="text-sm font-bold text-[#0F172A]">
+                    {onlineUsers} <span className="text-[#64748B] font-medium ml-1">Members Online</span>
+                  </p>
+                </div>
+
+                {/* Live Community Activity */}
+                <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col">
+                  <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC]">
+                    <h3 className="font-bold text-[#0F172A] flex items-center gap-2">
+                      <ActivityIcon className="w-4 h-4 text-blue-500" /> Recent Activity
+                    </h3>
+                  </div>
+                  <div className="p-5 space-y-5 max-h-[300px] overflow-y-auto custom-scrollbar">
+                    {activityFeed.length === 0 && <p className="text-xs text-[#64748B]">No recent activity yet...</p>}
+                    {activityFeed.map((activity, i) => (
+                        <div key={activity._id || i} className="flex gap-3 animate-fade-in">
+                          <img src={activity.userAvatar} className="w-8 h-8 rounded-full border border-[#E2E8F0]" alt="" />
+                          <div className="flex-1 min-w-0 pt-0.5">
+                              <p className="text-sm text-[#0F172A] leading-snug">
+                                <span className="font-bold">{activity.userName}</span> {activity.message}
+                              </p>
+                              <p className="text-[11px] text-[#64748B] font-medium mt-1 uppercase tracking-wider">
+                                {formatRelativeTime(activity.createdAt)}
+                              </p>
+                          </div>
+                        </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Community Pulse */}
+                {pulseData && (
+                  <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col">
+                    <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC]">
+                        <h3 className="font-bold text-[#0F172A] flex items-center gap-2">
+                          <HeartPulse className="w-4 h-4 text-red-500" /> Community Pulse
+                        </h3>
+                    </div>
+                    <div className="p-5 space-y-6">
+                        <div>
+                          <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">Today</p>
+                          <div className="grid grid-cols-2 gap-3">
+                              <div>
+                                <p className="text-xl font-black text-[#00C08B]">{pulseData.today.newMembers}</p>
+                                <p className="text-[11px] font-bold text-[#0F172A]">New Members</p>
+                              </div>
+                              <div>
+                                <p className="text-xl font-black text-[#00C08B]">{pulseData.today.newPosts}</p>
+                                <p className="text-[11px] font-bold text-[#0F172A]">New Posts</p>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Bottom Floating Pill Navigation (Mobile) */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 lg:hidden flex bg-[#0F172A] text-white rounded-full shadow-xl overflow-hidden font-medium text-sm">
+        <button 
+          onClick={() => { setMobileFiltersOpen(true); setMobileStatsOpen(false); }}
+          className="px-6 py-3 hover:bg-[#1E293B] transition-colors border-r border-[#334155] flex items-center gap-2"
+        >
+          <Search size={16} /> Filters
+        </button>
+        <button 
+          onClick={() => { setMobileStatsOpen(true); setMobileFiltersOpen(false); }}
+          className="px-6 py-3 hover:bg-[#1E293B] transition-colors flex items-center gap-2"
+        >
+          <TrendingUp size={16} /> Stats
+        </button>
       </div>
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {

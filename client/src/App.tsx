@@ -1,38 +1,40 @@
 import Navbar from "./components/Navbar";
 import LandingNavbar from "./components/LandingNavbar";
-import UnAuthHome from "./pages/UnAuthHome";
-import CommunityFeed from "./pages/Home";
-import { AuthModalProvider } from "./contexts/AuthModalContext";
-import { AuthModal } from "./components/AuthModal";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import AuthRedirect from "./pages/AuthRedirect";
-import ProtectedRoute from "./router/Authentication";
-import Post from "./pages/Post";
-import Notifications from "./pages/Notifications";
-import User from "./pages/User";
-import Write from "./pages/Write";
-import { useAuth } from "./contexts/Auth";
-import SignIn from "./pages/SignIn";
-import LearnDashboard from "./pages/LearnDashboard";
-import InterviewPrepDashboard from "./pages/InterviewPrepDashboard";
-
-import RoadmapDashboard from "./pages/RoadmapDashboard";
-import RoadmapViewer from "./pages/RoadmapViewer";
-import CertificationCenter from "./pages/CertificationCenter";
 import {
   useState,
   createContext,
   useContext,
   useMemo,
   useEffect,
+  lazy,
+  Suspense,
 } from "react";
 import { Toaster, toast, Toast } from "react-hot-toast";
 import CloseIcon from "@mui/icons-material/Close";
 import { io } from "socket.io-client";
 import { url } from "./baseUrl";
-import SearchResults from "./pages/SearchResults";
-import Suggestions from "./pages/Suggestions";
+import { BrandIconOnly } from "./components/BrandLogo";
 
+const UnAuthHome = lazy(() => import("./pages/UnAuthHome"));
+const CommunityFeed = lazy(() => import("./pages/Home"));
+const AuthRedirect = lazy(() => import("./pages/AuthRedirect"));
+const Post = lazy(() => import("./pages/Post"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const User = lazy(() => import("./pages/User"));
+const Write = lazy(() => import("./pages/Write"));
+const SignIn = lazy(() => import("./pages/SignIn"));
+const LearnDashboard = lazy(() => import("./pages/LearnDashboard"));
+const InterviewPrepDashboard = lazy(() => import("./pages/InterviewPrepDashboard"));
+const RoadmapDashboard = lazy(() => import("./pages/RoadmapDashboard"));
+const RoadmapViewer = lazy(() => import("./pages/RoadmapViewer"));
+const CertificationCenter = lazy(() => import("./pages/CertificationCenter"));
+const SearchResults = lazy(() => import("./pages/SearchResults"));
+const Suggestions = lazy(() => import("./pages/Suggestions"));
+import { Routes, Route, Outlet } from "react-router-dom";
+import { useAuth } from "./contexts/Auth";
+import ProtectedRoute from "./router/Authentication";
+import { AuthModalProvider } from "./contexts/AuthModalContext";
+import { AuthModal } from "./components/AuthModal";
 export const DEFAULT_IMG =
   "https://firebasestorage.googleapis.com/v0/b/upload-pics-e599e.appspot.com/o/images%2F1_dmbNkD5D-u45r44go_cf0g.png?alt=media&token=3ef51503-f601-448b-a55b-0682607ddc8a";
 
@@ -122,23 +124,29 @@ export default function App() {
     <Context.Provider value={contextValue}>
       <Toaster position="top-center" reverseOrder={false} />
       <div className="App selection:bg-now-primary selection:text-black min-h-screen">
-        <Routes>
-          {/* Public Layout Routes (Accessible to all, but shows AvatarMenu if logged in) */}
-          <Route element={<PublicLayout />}>
-            <Route path="/" element={<UnAuthHome />} />
-            <Route path="/roadmaps" element={<RoadmapDashboard />} />
-            <Route path="/roadmaps/:slug" element={<RoadmapViewer />} />
-            <Route path="/certifications" element={<CertificationCenter />} />
-          </Route>
+        <Suspense fallback={
+          <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+            <BrandIconOnly className="h-12 w-auto animate-pulse" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-now-primary"></div>
+          </div>
+        }>
+          <Routes>
+            {/* Public Layout Routes (Accessible to all, but shows AvatarMenu if logged in) */}
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<UnAuthHome />} />
+              <Route path="/roadmaps" element={<RoadmapDashboard />} />
+              <Route path="/roadmaps/:slug" element={<RoadmapViewer />} />
+              <Route path="/certifications" element={<CertificationCenter />} />
+            </Route>
 
-          {/* Protected App Layout Routes (Requires Login) */}
-          <Route element={<ProtectedRoute><AppLayout notificationsCount={notificationsCount} /></ProtectedRoute>}>
-            <Route path="/learn" element={<LearnDashboard />} />
-            <Route path="/learn/:categorySlug/:lessonSlug" element={<LearnDashboard />} />
-            <Route path="/interview-prep" element={<InterviewPrepDashboard />} />
-            <Route path="/interview-prep/:categorySlug/:lessonSlug" element={<InterviewPrepDashboard />} />
-            <Route path="/community" element={<CommunityFeed />} />
-            <Route path="/tag/:tag" element={<CommunityFeed />} />
+            {/* Protected App Layout Routes (Requires Login) */}
+            <Route element={<ProtectedRoute><AppLayout notificationsCount={notificationsCount} /></ProtectedRoute>}>
+              <Route path="/learn" element={<LearnDashboard />} />
+              <Route path="/learn/:categorySlug/:lessonSlug" element={<LearnDashboard />} />
+              <Route path="/interview-prep" element={<InterviewPrepDashboard />} />
+              <Route path="/interview-prep/:categorySlug/:lessonSlug" element={<InterviewPrepDashboard />} />
+              <Route path="/community" element={<CommunityFeed />} />
+              <Route path="/tag/:tag" element={<CommunityFeed />} />
             <Route path="/projects" element={<div className="text-[#0F172A] text-center mt-20 text-2xl font-bold">Projects Coming Soon</div>} />
             <Route path="/suggestions" element={<Suggestions />} />
             <Route path="/search/:tab/:query" element={<SearchResults />} />
@@ -154,8 +162,10 @@ export default function App() {
 
           {/* Auth Pages (No layout) */}
           <Route path="/signin/:tab" element={<SignIn />} />
-          <Route path="/oauth/redirect" element={<AuthRedirect />} />
+          {/* Other standalone protected routes */}
+          <Route path="/authredirect" element={<AuthRedirect />} />
         </Routes>
+        </Suspense>
       </div>
     </Context.Provider>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, ChevronDown, ChevronRight, PlayCircle, FileText, 
-  CheckSquare, Award, Clock, Target, List, Video, BookOpen, ChevronLeft, ChevronRight as IconNext, CheckCircle
+  CheckSquare, Award, Clock, Target, List, Video, BookOpen, ChevronLeft, ChevronRight as IconNext, CheckCircle, X
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import Markdown from "markdown-to-jsx";
@@ -53,6 +53,7 @@ export default function InterviewPrepDashboard() {
   });
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [tocMenuOpen, setTocMenuOpen] = useState(false);
   
   const [expandedLessons, setExpandedLessons] = useState<Record<string, boolean>>({
     [activeLesson?.id]: true
@@ -446,15 +447,25 @@ export default function InterviewPrepDashboard() {
           </div>
         </div>
 
-        <div className="hidden xl:flex w-72 flex-shrink-0 border-l border-[#E2E8F0] bg-[#FFFFFF] flex-col z-10 h-full overflow-hidden">
-          <div className="p-6 pb-4">
+        {/* Mobile TOC Overlay */}
+        {tocMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-[#0F172A]/20 z-40 xl:hidden"
+            onClick={() => setTocMenuOpen(false)}
+          />
+        )}
+        <div className={`fixed right-0 top-0 xl:relative w-72 flex-shrink-0 border-l border-[#E2E8F0] bg-[#FFFFFF] flex flex-col z-50 h-full overflow-hidden transition-transform duration-300 ${
+          tocMenuOpen ? "translate-x-0" : "translate-x-full xl:translate-x-0"
+        }`}>
+          <div className="p-6 pb-4 flex items-center justify-between">
             <h3 className="font-bold text-[#0F172A] uppercase tracking-widest text-xs">On This Page</h3>
+            <button onClick={() => setTocMenuOpen(false)} className="xl:hidden p-1 text-[#64748B] hover:text-[#0F172A]"><X size={18} /></button>
           </div>
           <div className="flex-1 overflow-y-auto px-6 pb-24 space-y-2 custom-scrollbar">
             {activeLesson.subtopics && activeLesson.subtopics.map(sub => (
                <button 
                  key={sub.id}
-                 onClick={() => scrollToSubtopic(sub.id)}
+                 onClick={() => { scrollToSubtopic(sub.id); setTocMenuOpen(false); }}
                  className={`block text-left text-sm transition-all w-full border-l-2 pl-4 py-2 ${
                    activeSubtopicId === sub.id 
                      ? "border-now-primary text-now-primary font-bold bg-now-primary/5" 
@@ -467,6 +478,22 @@ export default function InterviewPrepDashboard() {
           </div>
         </div>
 
+      </div>
+
+      {/* Bottom Floating Pill Navigation (Mobile) */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 lg:hidden flex bg-[#0F172A] text-white rounded-full shadow-xl overflow-hidden font-medium text-sm">
+        <button 
+          onClick={() => { setMobileMenuOpen(true); setTocMenuOpen(false); }}
+          className="px-6 py-3 hover:bg-[#1E293B] transition-colors border-r border-[#334155] flex items-center gap-2"
+        >
+          <List size={16} /> Contents
+        </button>
+        <button 
+          onClick={() => { setTocMenuOpen(true); setMobileMenuOpen(false); }}
+          className="px-6 py-3 hover:bg-[#1E293B] transition-colors flex items-center gap-2"
+        >
+          <List size={16} /> TOC
+        </button>
       </div>
 
       <style>{`

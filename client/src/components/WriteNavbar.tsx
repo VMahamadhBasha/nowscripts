@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { mediumLogo, moreIcon, NotificationIcon } from "../assets/icons";
+import { moreIcon, NotificationIcon } from "../assets/icons";
 import AvatarMenu from "./AvatarMenu";
+import { BrandLogo } from "./BrandLogo";
 
 type WriteNavType = {
   onClick(): void;
@@ -24,7 +25,7 @@ export default function WriteNavbar({
       }}
     >
       <div className="left_write_nav">
-        <Link to="/">{mediumLogo}</Link>
+        <Link to="/"><BrandLogo /></Link>
       </div>
       <div
         className="right_write_nav"

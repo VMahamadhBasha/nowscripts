@@ -32,24 +32,23 @@ export default function Auth({ children }: AuthProps) {
     user != undefined
   );
 
-  const { refetch: logoutCall } = useQuery({
-    queryFn: () =>
-      httpRequest.post(`${url}/auth/logout`, {
-        refresh_token: JSON.parse(
-          localStorage.getItem("refresh_token") as string
-        ),
-      }),
-    queryKey: ["logout", user?._id],
-    enabled: false,
-    onSuccess() {
+  async function logout() {
+    try {
+      const refreshTokenStr = localStorage.getItem("refresh_token");
+      if (refreshTokenStr && refreshTokenStr !== "undefined") {
+        const refresh_token = JSON.parse(refreshTokenStr);
+        if (refresh_token) {
+          await httpRequest.post(`${url}/auth/logout`, { refresh_token });
+        }
+      }
+    } catch (err) {
+      console.error("Logout failed to notify server", err);
+    } finally {
       setUser(undefined);
       setIsAuthenticated(false);
       clearLocalStorage();
-    },
-  });
-
-  function logout() {
-    logoutCall();
+      window.location.href = "/";
+    }
   }
 
   function handleUser(user: User) {

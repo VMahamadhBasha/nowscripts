@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { DEFAULT_IMG } from "../App";
 import {
   carrotIcon,
-  mediumLogo,
   NotificationIcon,
   writeBlogIcon,
 } from "../assets/icons";
 import AvatarMenu from "./AvatarMenu";
 import Search from "./Search";
+import { BrandLogo } from "./BrandLogo";
 
 export default function UnAuthNavbar() {
   return (
@@ -31,7 +31,7 @@ export default function UnAuthNavbar() {
           gap: "17px",
         }}
       >
-        <Link to="/">{mediumLogo}</Link>
+        <Link to="/"><BrandLogo /></Link>
         <Search />
       </div>
       <div

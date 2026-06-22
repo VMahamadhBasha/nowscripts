@@ -132,18 +132,7 @@ export default function Write() {
         onClick={handleClickOpen}
         disabled={!(post.title.length > 6 && post.markdown.length > 15)}
       />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-
-          width: "80%",
-          margin: "auto",
-          marginTop: "3vh",
-          gap: "22px",
-        }}
-      >
+      <div className="flex flex-col items-center w-[90%] md:w-[80%] mx-auto mt-[3vh] gap-[22px]">
         <TextareaAutosize
           autoFocus={true}
           onChange={(e) => {
@@ -252,30 +241,9 @@ const DialogComponent = ({
   const summary = withoutCode.replace(htmlRegexG, "");
   return (
     <>
-      <div
-        className="dialog_main"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          height: "90vh",
-          alignItems: "center",
-        }}
-      >
-        <div
-          className="wrapper_write_dialog"
-          style={{
-            width: "900px",
-            height: "350px",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            className="left_write_dialog"
-            style={{ width: "47%", display: "flex", flexDirection: "column" }}
-          >
+      <div className="flex justify-center w-full min-h-[90vh] items-center p-4 dialog_main">
+        <div className="w-full max-w-[900px] flex flex-col md:flex-row justify-between gap-8 h-auto md:h-[350px] wrapper_write_dialog relative">
+          <div className="w-full md:w-[47%] flex flex-col left_write_dialog">
             <h4
               style={{
                 marginTop: "0px",
@@ -335,23 +303,10 @@ const DialogComponent = ({
               {summary.length > 112 ? summary.slice(0, 112) + " ..." : summary}
             </p>
           </div>
-          <div
-            className="right_write_dialog"
-            style={{
-              width: "47%",
-              display: "flex",
-              flexDirection: "column",
-              position: "relative",
-            }}
-          >
+          <div className="w-full md:w-[47%] flex flex-col relative right_write_dialog">
             <span
               onClick={handleClose}
-              style={{
-                position: "absolute",
-                top: "-150px",
-                right: "-34px",
-                cursor: "pointer",
-              }}
+              className="absolute -top-[50px] right-0 md:-top-[150px] md:-right-[34px] cursor-pointer"
             >
               {cancelIcon}
             </span>

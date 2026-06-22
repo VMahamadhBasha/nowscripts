@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { emailIcon, googleIcon } from "../assets/icons";
+import { BrandIconOnly } from "./BrandLogo";
 
 type SignInBoxType = {
   message?: string;
@@ -40,25 +41,11 @@ export default function SignInBox({ message, typeOfLogin }: SignInBoxType) {
   }
   function handleEmailLogin() {}
   return (
-    <div
-      style={{
-        width: "650px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "16px",
-        padding: "8vh 0",
-        boxShadow:
-          "rgb(190, 190, 190) 2px 2px 12px, rgb(255, 255, 255) -20px -20px 60px",
-      }}
-    >
-      <p
-        style={{
-          fontFamily: "Roboto Slab",
-          fontSize: "28px",
-          marginBottom: "30px",
-        }}
-      >
+    <div className="w-[90%] sm:w-full max-w-[650px] mx-auto flex flex-col items-center gap-4 py-16 bg-white rounded-2xl px-6" style={{
+        boxShadow: "rgb(190, 190, 190) 2px 2px 12px, rgb(255, 255, 255) -20px -20px 60px"
+    }}>
+      <BrandIconOnly className="mb-2 h-12 md:h-14" />
+      <p className="font-serif text-2xl md:text-[28px] mb-8 text-center">
         {message}
       </p>
       {SIGNIN_OPTIONS.map((item) => {

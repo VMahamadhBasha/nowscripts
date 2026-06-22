@@ -136,7 +136,7 @@ export default function Post({
   return (
     <Link 
       to={`/blog/${postId}`}
-      className="block bg-white border border-[#E2E8F0] rounded-xl p-5 hover:border-[#00C08B] hover:shadow-md transition-all group relative text-left"
+      className="block bg-white border border-[#E2E8F0] rounded-xl p-4 sm:p-5 hover:border-[#00C08B] hover:shadow-md transition-all group relative text-left"
     >
       {/* Category & Difficulty Badges */}
       <div className="flex items-center justify-between mb-4">

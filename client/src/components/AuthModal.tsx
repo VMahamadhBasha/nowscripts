@@ -6,6 +6,8 @@ import { useAuth } from "../contexts/Auth";
 import { useNavigate } from "react-router-dom";
 import { googleIcon } from "../assets/icons";
 
+import { BrandIconOnly } from "./BrandLogo";
+
 export function AuthModal() {
   const { isOpen, view, closeModal, setView } = useAuthModal();
   const { handleUser } = useAuth();
@@ -16,6 +18,7 @@ export function AuthModal() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -37,6 +40,7 @@ export function AuthModal() {
       setEmail("");
       setPassword("");
       setShowPassword(false);
+      setSubmitted(false);
     }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -63,6 +67,7 @@ export function AuthModal() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
     
     // TEMP DEMO LOGIN
     // Remove before production deployment
@@ -77,6 +82,10 @@ export function AuthModal() {
       });
       closeModal();
       navigate("/learn");
+      return;
+    }
+
+    if (!email || !password || (view === "signup" && !name)) {
       return;
     }
 
@@ -104,170 +113,126 @@ export function AuthModal() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", duration: 0.3, bounce: 0, ease: "easeOut" }}
-              className="relative w-full max-w-[420px] max-h-[85vh] pointer-events-auto flex flex-col"
+              className="relative w-full max-w-[440px] pointer-events-auto flex flex-col"
             >
               <div 
-                className="w-full rounded-[20px] p-6 sm:p-8 relative overflow-y-auto no-scrollbar"
-                style={{
-                  background: "rgba(10, 15, 30, 0.9)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 0 40px rgba(0, 192, 139, 0.15), 0 20px 40px rgba(0,0,0,0.4)",
-                }}
+                className="w-full bg-white rounded-xl p-8 relative shadow-2xl"
               >
                 {/* Close Button */}
                 <button
                   onClick={closeModal}
-                  className="absolute top-5 right-5 text-gray-500 hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-1.5 transition-all duration-200 z-10"
+                  className="absolute top-6 right-6 text-gray-500 hover:text-gray-800 transition-colors z-10"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </button>
 
-                <div className="text-center mb-6">
-                  <h2 
-                    className="text-[32px] font-[700] text-white leading-tight tracking-tight mb-1.5"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  >
-                    {view === "login" ? "Welcome back" : "Create account"}
+                <div className="mb-6">
+                  <h2 className="text-[24px] font-bold text-[#1a1a1a]">
+                    {view === "login" ? "Log in" : "Create an Account"}
                   </h2>
-                  <p className="text-[#8892b0] text-[14px] font-medium">
-                    {view === "login"
-                      ? "Enter your details to access your dashboard"
-                      : "Join NowScripts to accelerate your career"}
-                  </p>
                 </div>
 
-                {view === "login" && (
-                  <div className="mb-6 p-3 rounded-lg bg-now-primary/10 border border-now-primary/20 text-left flex gap-3">
-                    <Info className="w-5 h-5 text-now-primary flex-shrink-0 mt-0.5" />
+                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                  {view === "signup" && (
                     <div>
-                      <p className="text-[13px] font-bold text-white mb-1">Demo Account</p>
-                      <p className="text-[12px] text-gray-300 font-mono">Email: admin@gmail.com</p>
-                      <p className="text-[12px] text-gray-300 font-mono">Password: 12345678</p>
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Name"
+                        className={`w-full h-[48px] bg-white border rounded-md px-4 text-[15px] text-gray-900 placeholder-gray-400 focus:outline-none transition-colors ${
+                          submitted && name === "" ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500" : "border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                        }`}
+                      />
                     </div>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="space-y-3.5">
-                  <AnimatePresence mode="popLayout">
-                    {view === "signup" && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <label className="block text-[13px] font-semibold text-gray-300 mb-1.5">
-                          Full Name
-                        </label>
-                        <input
-                          ref={inputRef}
-                          type="text"
-                          required
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          placeholder="John Doe"
-                          className="w-full h-[48px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg px-4 text-white text-[15px] placeholder-gray-500 focus:outline-none focus:border-[#00C08B] focus:ring-4 focus:ring-[#00C08B]/15 transition-all duration-200"
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  )}
 
                   <div>
-                    <label className="block text-[13px] font-semibold text-gray-300 mb-1.5">
-                      Email Address
-                    </label>
                     <input
                       ref={view === "login" ? inputRef : null}
                       type="email"
-                      required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@example.com"
-                      className="w-full h-[48px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg px-4 text-white text-[15px] placeholder-gray-500 focus:outline-none focus:border-[#00C08B] focus:ring-4 focus:ring-[#00C08B]/15 transition-all duration-200"
+                      placeholder="Email address"
+                      className={`w-full h-[48px] bg-white border rounded-md px-4 text-[15px] text-gray-900 placeholder-gray-400 focus:outline-none transition-colors ${
+                        submitted && email === "" && view === "signup" ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500" : "border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                      }`}
                     />
+                    {submitted && email === "" && view === "signup" && (
+                      <p className="text-red-500 text-[12px] mt-1 text-left">Enter a valid email</p>
+                    )}
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="block text-[13px] font-semibold text-gray-300">
-                        Password
-                      </label>
-                      {view === "login" && (
-                        <button type="button" className="text-now-primary text-[13px] font-semibold hover:text-now-accent transition-colors duration-200">
-                          Forgot password?
-                        </button>
-                      )}
-                    </div>
                     <div className="relative">
                       <input
                         type={showPassword ? "text" : "password"}
-                        required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full h-[48px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg pl-4 pr-12 text-white text-[15px] placeholder-gray-500 focus:outline-none focus:border-[#00C08B] focus:ring-4 focus:ring-[#00C08B]/15 transition-all duration-200"
+                        placeholder="Password"
+                        className={`w-full h-[48px] bg-white border rounded-md pl-4 pr-12 text-[15px] text-gray-900 placeholder-gray-400 focus:outline-none transition-colors ${
+                          submitted && password === "" && view === "signup" ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500" : "border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                        }`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 hover:bg-white/5 p-1.5 rounded-md transition-all duration-200 flex items-center justify-center"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
+                    {submitted && password === "" && view === "signup" && (
+                      <p className="text-red-500 text-[12px] mt-1 text-left">Enter a password</p>
+                    )}
                   </div>
+
+                  {view === "signup" && (
+                    <div className="flex items-start gap-2 pt-1 pb-2">
+                      <input 
+                        type="checkbox" 
+                        defaultChecked
+                        className="mt-1 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                        id="promo"
+                      />
+                      <label htmlFor="promo" className="text-[14px] text-gray-600 leading-snug">
+                        I'd like to receive promotional and instructional emails
+                      </label>
+                    </div>
+                  )}
 
                   <button
                     type="submit"
-                    className="w-full h-[48px] bg-now-primary text-[#020617] text-[16px] font-[700] rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(0,192,139,0.2)] hover:shadow-[0_0_25px_rgba(0,192,139,0.4)] hover:-translate-y-[1px] mt-2 flex items-center justify-center"
+                    className="w-full h-[48px] bg-[#4f46e5] hover:bg-[#4338ca] text-white text-[16px] font-bold rounded-md transition-colors flex items-center justify-center mt-2"
                   >
-                    {view === "login" ? "Sign In" : "Create Account"}
+                    {view === "login" ? "Log in" : "Next"}
                   </button>
                 </form>
 
-                {/* Trust Indicators */}
-                <div className="flex items-center justify-center gap-3 mt-4 mb-1 text-[11px] text-[#64748b] font-medium">
-                  <div className="flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-now-primary" />
-                    Secure
-                  </div>
-                  <div className="w-1 h-1 rounded-full bg-gray-700"></div>
-                  <div className="flex items-center gap-1">
-                    Data Protected
-                  </div>
-                  <div className="w-1 h-1 rounded-full bg-gray-700"></div>
-                  <div className="flex items-center gap-1">
-                    No Spam
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 my-5">
-                  <div className="h-[1px] bg-white/10 flex-1"></div>
-                  <span className="text-[#64748b] text-[12px] font-medium uppercase tracking-wider">Or</span>
-                  <div className="h-[1px] bg-white/10 flex-1"></div>
+                <div className="flex items-center gap-3 my-6">
+                  <div className="h-[1px] bg-gray-200 flex-1"></div>
+                  <span className="text-gray-600 text-[14px] font-medium">Or</span>
+                  <div className="h-[1px] bg-gray-200 flex-1"></div>
                 </div>
 
                 <button
                   onClick={handleGoogleAuth}
-                  className="w-full h-[48px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] hover:border-[#00C08B] hover:bg-[rgba(0,192,139,0.05)] text-white text-[14px] font-semibold rounded-lg flex items-center justify-center gap-2.5 transition-all duration-250 ease-out group"
+                  className="w-full h-[48px] bg-white border border-gray-300 hover:bg-gray-50 text-gray-900 text-[15px] font-semibold rounded-md flex items-center justify-center gap-3 transition-colors"
                 >
-                  <span className="group-hover:scale-110 transition-transform duration-250 ease-out">
-                    {googleIcon}
-                  </span>
+                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
                   Continue with Google
                 </button>
 
-                <div className="text-center mt-6 text-[14px] text-[#8892b0] font-medium">
+                <div className="text-center mt-8 text-[14px] text-gray-600">
                   {view === "login" ? (
                     <>
                       Don't have an account?{" "}
                       <button
                         onClick={() => setView("signup")}
-                        className="text-white font-bold hover:text-now-primary transition-colors duration-200"
+                        className="text-gray-900 font-bold hover:underline"
                       >
-                        Sign up
+                        Create one
                       </button>
                     </>
                   ) : (
@@ -275,7 +240,7 @@ export function AuthModal() {
                       Already have an account?{" "}
                       <button
                         onClick={() => setView("login")}
-                        className="text-white font-bold hover:text-now-primary transition-colors duration-200"
+                        className="text-gray-900 font-bold hover:underline"
                       >
                         Log in
                       </button>

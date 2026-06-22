@@ -1,25 +1,37 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { whiteLogo } from "../assets/icons";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { useAuth } from "../contexts/Auth";
 import { useAuthModal } from "../contexts/AuthModalContext";
 import AvatarMenu from "./AvatarMenu";
+import { BrandLogo } from "./BrandLogo";
 
 export default function LandingNavbar() {
   const { isAuthenticated } = useAuth();
   const { openModal } = useAuthModal();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
+    <>
     <div className="w-full h-20 bg-now-background/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-full">
         {/* Left Side: Logo */}
-        <div className="flex-shrink-0">
-          <Link to="/" className="text-white hover:text-now-primary transition-colors">
-            {whiteLogo}
+        <div className="flex items-center gap-4 flex-shrink-0">
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden flex items-center justify-center p-1 text-gray-300 hover:text-white"
+          >
+            <Menu size={24} />
+          </button>
+          <Link to="/" className="text-white hover:text-now-primary transition-colors hidden md:block">
+            <BrandLogo textColor="text-white" hideTextOnMobile={true} />
           </Link>
         </div>
 
         {/* Right Side: Links & CTA */}
         <div className="flex items-center gap-6">
-          <Link to="/learn" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+          <Link to="/learn" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
             Learn
           </Link>
           <Link to="/roadmaps" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
@@ -63,5 +75,48 @@ export default function LandingNavbar() {
         </div>
       </div>
     </div>
+
+    {/* Mobile Drawer */}
+    <AnimatePresence>
+      {isMobileMenuOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black z-40 md:hidden"
+          />
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            className="fixed inset-y-0 left-0 w-[280px] bg-now-background border-r border-gray-800 z-50 flex flex-col shadow-2xl md:hidden"
+          >
+            <div className="flex items-center justify-between p-4 border-b border-gray-800">
+              <BrandLogo textColor="text-white" hideTextOnMobile={false} className="scale-90 origin-left" />
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-gray-300 hover:text-white rounded-md"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto py-4">
+              <nav className="flex flex-col space-y-1 px-4">
+                <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Home</Link>
+                <Link to="/learn" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Learn</Link>
+                <Link to="/roadmaps" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Roadmaps</Link>
+                <Link to="/projects" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Projects</Link>
+                <Link to="/interview-prep" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Interview Prep</Link>
+                <Link to="/community" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Community</Link>
+              </nav>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
