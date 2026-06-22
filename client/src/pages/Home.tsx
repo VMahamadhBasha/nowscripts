@@ -148,7 +148,7 @@ function HomeContainer({ tag }: { tag: string }) {
   });
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pt-6 pb-24 text-[#0F172A] font-sans selection:bg-now-primary selection:text-black">
+    <div className="bg-slate-50 dark:bg-slate-900 min-h-screen pt-6 pb-24 text-slate-900 dark:text-slate-100 font-sans selection:bg-now-primary selection:text-black dark:text-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* 3-COLUMN GRID */}
@@ -158,7 +158,7 @@ function HomeContainer({ tag }: { tag: string }) {
           <div className="hidden lg:block space-y-8">
             <div className="sticky top-24">
               <div className="mb-8">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-4 pl-3">Community</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 pl-3">Community</h3>
                 <nav className="space-y-1">
                   {COMMUNITY_CATEGORIES.map(category => (
                     <button
@@ -170,7 +170,7 @@ function HomeContainer({ tag }: { tag: string }) {
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                         activeCategory === category.id && !tag
                           ? "bg-[#00C08B]/10 text-[#00C08B]"
-                          : "text-[#475569] hover:bg-white hover:text-[#0F172A]"
+                          : "text-[#475569] hover:bg-white dark:bg-slate-900 hover:text-slate-900 dark:text-slate-100"
                       }`}
                     >
                       {category.icon}
@@ -181,13 +181,13 @@ function HomeContainer({ tag }: { tag: string }) {
               </div>
 
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-4 pl-3">Popular Tags</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 pl-3">Popular Tags</h3>
                 <div className="flex flex-wrap gap-2 pl-3">
                   {POPULAR_TAGS.slice(0, 8).map(t => (
                     <Link 
                       key={t}
                       to={`/tag/${t}`}
-                      className="text-xs font-medium bg-white border border-[#E2E8F0] text-[#64748B] px-2.5 py-1.5 rounded-md hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
+                      className="text-xs font-medium bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 px-2.5 py-1.5 rounded-md hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
                     >
                       #{t}
                     </Link>
@@ -202,18 +202,18 @@ function HomeContainer({ tag }: { tag: string }) {
             {/* Header & Write CTA */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
               <div>
-                <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight">Community Hub</h1>
-                <p className="text-[#64748B] mt-1 text-sm font-medium">Join the ServiceNow learning ecosystem.</p>
+                <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Community Hub</h1>
+                <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm font-medium">Join the ServiceNow learning ecosystem.</p>
               </div>
               <div className="flex items-center gap-3">
                  <div className="relative hidden sm:block">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400" />
                     <input 
                       type="text" 
                       placeholder="Search community..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-64 pl-9 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-lg text-sm focus:outline-none focus:border-[#00C08B] transition-colors shadow-sm"
+                      className="w-64 pl-9 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:border-[#00C08B] transition-colors shadow-sm"
                     />
                  </div>
                  <Link 
@@ -230,14 +230,14 @@ function HomeContainer({ tag }: { tag: string }) {
               <div className="mb-10">
                 <div className="flex items-center gap-2 mb-4">
                   <Flame className="w-5 h-5 text-orange-500" />
-                  <h2 className="text-lg font-bold text-[#0F172A]">Trending This Week</h2>
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Trending This Week</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {trendingDiscussions.slice(0, 3).map((item, idx) => (
                     <Link 
                       to={`/blog/${item.post._id}`} 
                       key={item.post._id}
-                      className="bg-white border border-[#E2E8F0] rounded-xl p-5 hover:border-[#00C08B] hover:shadow-md transition-all group relative overflow-hidden"
+                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-[#00C08B] hover:shadow-md transition-all group relative overflow-hidden"
                     >
                       <div className="flex items-center gap-2 mb-3">
                          <span className="text-xl font-black text-[#E2E8F0] group-hover:text-[#00C08B]/20 transition-colors">0{idx + 1}</span>
@@ -245,10 +245,10 @@ function HomeContainer({ tag }: { tag: string }) {
                            {item.post.postType || "Article"}
                          </span>
                       </div>
-                      <h3 className="font-bold text-[#0F172A] line-clamp-2 leading-snug mb-3 group-hover:text-[#00C08B] transition-colors relative z-10">
+                      <h3 className="font-bold text-slate-900 dark:text-slate-100 line-clamp-2 leading-snug mb-3 group-hover:text-[#00C08B] transition-colors relative z-10">
                         {item.post.title}
                       </h3>
-                      <div className="flex items-center gap-2 text-xs text-[#64748B] relative z-10">
+                      <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 relative z-10">
                         <img src={item.user.avatar} className="w-5 h-5 rounded-full" alt="" />
                         <span className="truncate">{item.user.name}</span>
                       </div>
@@ -267,7 +267,7 @@ function HomeContainer({ tag }: { tag: string }) {
                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                      activeCategory === category.id 
                        ? "bg-[#0F172A] text-white"
-                       : "bg-white border border-[#E2E8F0] text-[#475569]"
+                       : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[#475569]"
                    }`}
                  >
                    {category.label}
@@ -278,21 +278,21 @@ function HomeContainer({ tag }: { tag: string }) {
             {/* Main Feed */}
             <div className="space-y-5">
               {displayedPosts.length === 0 ? (
-                <div className="bg-white rounded-xl border border-[#E2E8F0] p-12 text-center">
-                  <div className="w-16 h-16 bg-[#F8FAFC] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#E2E8F0]">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-12 text-center">
+                  <div className="w-16 h-16 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-200 dark:border-slate-800">
                      <ActivityIcon className="w-8 h-8 text-[#00C08B]" />
                   </div>
-                  <h3 className="text-lg font-bold text-[#0F172A] mb-2">No posts found</h3>
-                  <p className="text-[#64748B] text-sm mb-8">But the community is alive! Check out what's happening right now.</p>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">No posts found</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">But the community is alive! Check out what's happening right now.</p>
                   
                   {/* Rich Empty State */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                      {trendingDiscussions.length > 0 && (
-                        <div className="bg-[#F8FAFC] p-5 rounded-xl border border-[#E2E8F0]">
-                           <h4 className="font-bold text-[#0F172A] mb-4 flex items-center gap-2"><Flame className="w-4 h-4 text-orange-500"/> Trending</h4>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                           <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2"><Flame className="w-4 h-4 text-orange-500"/> Trending</h4>
                            <div className="space-y-3">
                               {trendingDiscussions.slice(0,3).map(p => (
-                                 <Link to={`/blog/${p.post._id}`} key={p.post._id} className="block text-sm font-medium text-[#0F172A] hover:text-[#00C08B] truncate">
+                                 <Link to={`/blog/${p.post._id}`} key={p.post._id} className="block text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-[#00C08B] truncate">
                                     {p.post.title}
                                  </Link>
                               ))}
@@ -300,13 +300,13 @@ function HomeContainer({ tag }: { tag: string }) {
                         </div>
                      )}
                      {activityFeed.length > 0 && (
-                        <div className="bg-[#F8FAFC] p-5 rounded-xl border border-[#E2E8F0]">
-                           <h4 className="font-bold text-[#0F172A] mb-4 flex items-center gap-2"><ActivityIcon className="w-4 h-4 text-blue-500"/> Recent Activity</h4>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                           <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2"><ActivityIcon className="w-4 h-4 text-blue-500"/> Recent Activity</h4>
                            <div className="space-y-3">
                               {activityFeed.slice(0,3).map((act, i) => (
                                  <div key={i} className="flex items-center gap-2 text-sm">
-                                    <span className="text-xs text-[#64748B] w-12 shrink-0">{formatRelativeTime(act.createdAt)}</span>
-                                    <span className="text-[#0F172A] truncate"><span className="font-semibold">{act.userName}</span> {act.message}</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 w-12 shrink-0">{formatRelativeTime(act.createdAt)}</span>
+                                    <span className="text-slate-900 dark:text-slate-100 truncate"><span className="font-semibold">{act.userName}</span> {act.message}</span>
                                  </div>
                               ))}
                            </div>
@@ -350,33 +350,33 @@ function HomeContainer({ tag }: { tag: string }) {
           <div className="hidden xl:block space-y-6">
              
              {/* Online Members Pill */}
-             <div className="flex items-center gap-3 bg-white px-5 py-4 rounded-xl border border-[#E2E8F0] shadow-sm shadow-green-500/5">
+             <div className="flex items-center gap-3 bg-white dark:bg-slate-900 px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm shadow-green-500/5">
                 <div className="relative flex h-3 w-3">
                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                 </div>
-                <p className="text-sm font-bold text-[#0F172A]">
-                   {onlineUsers} <span className="text-[#64748B] font-medium ml-1">Members Online</span>
+                <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                   {onlineUsers} <span className="text-slate-500 dark:text-slate-400 font-medium ml-1">Members Online</span>
                 </p>
              </div>
 
              {/* Live Community Activity */}
-             <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col">
-                <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                   <h3 className="font-bold text-[#0F172A] flex items-center gap-2">
+             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                <div className="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                   <h3 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                      <ActivityIcon className="w-4 h-4 text-blue-500" /> Recent Activity
                    </h3>
                 </div>
                 <div className="p-5 space-y-5 max-h-[300px] overflow-y-auto custom-scrollbar">
-                   {activityFeed.length === 0 && <p className="text-xs text-[#64748B]">No recent activity yet...</p>}
+                   {activityFeed.length === 0 && <p className="text-xs text-slate-500 dark:text-slate-400">No recent activity yet...</p>}
                    {activityFeed.map((activity, i) => (
                       <div key={activity._id || i} className="flex gap-3 animate-fade-in">
-                         <img src={activity.userAvatar} className="w-8 h-8 rounded-full border border-[#E2E8F0]" alt="" />
+                         <img src={activity.userAvatar} className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800" alt="" />
                          <div className="flex-1 min-w-0 pt-0.5">
-                            <p className="text-sm text-[#0F172A] leading-snug">
+                            <p className="text-sm text-slate-900 dark:text-slate-100 leading-snug">
                                <span className="font-bold">{activity.userName}</span> {activity.message}
                             </p>
-                            <p className="text-[11px] text-[#64748B] font-medium mt-1 uppercase tracking-wider">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1 uppercase tracking-wider">
                                {formatRelativeTime(activity.createdAt)}
                             </p>
                          </div>
@@ -387,36 +387,36 @@ function HomeContainer({ tag }: { tag: string }) {
 
              {/* Community Pulse */}
              {pulseData && (
-                <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col">
-                   <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                      <h3 className="font-bold text-[#0F172A] flex items-center gap-2">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                   <div className="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                      <h3 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                         <HeartPulse className="w-4 h-4 text-red-500" /> Community Pulse
                       </h3>
                    </div>
                    <div className="p-5 space-y-6">
                       <div>
-                         <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">Today</p>
+                         <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Today</p>
                          <div className="grid grid-cols-2 gap-3">
                             <div>
                                <p className="text-xl font-black text-[#00C08B]">{pulseData.today.newMembers}</p>
-                               <p className="text-[11px] font-bold text-[#0F172A]">New Members</p>
+                               <p className="text-[11px] font-bold text-slate-900 dark:text-slate-100">New Members</p>
                             </div>
                             <div>
                                <p className="text-xl font-black text-[#00C08B]">{pulseData.today.newPosts}</p>
-                               <p className="text-[11px] font-bold text-[#0F172A]">New Posts</p>
+                               <p className="text-[11px] font-bold text-slate-900 dark:text-slate-100">New Posts</p>
                             </div>
                          </div>
                       </div>
-                      <div className="pt-4 border-t border-[#E2E8F0]">
-                         <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">This Week</p>
+                      <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+                         <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">This Week</p>
                          <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                               <span className="text-xs text-[#64748B]">Top Contributor</span>
-                               <span className="text-xs font-bold text-[#0F172A]">{pulseData.thisWeek.topContributor}</span>
+                               <span className="text-xs text-slate-500 dark:text-slate-400">Top Contributor</span>
+                               <span className="text-xs font-bold text-slate-900 dark:text-slate-100">{pulseData.thisWeek.topContributor}</span>
                             </div>
                             <div className="flex items-center justify-between">
-                               <span className="text-xs text-[#64748B]">Active Category</span>
-                               <span className="text-xs font-bold text-[#0F172A]">{pulseData.thisWeek.mostActiveCategory}</span>
+                               <span className="text-xs text-slate-500 dark:text-slate-400">Active Category</span>
+                               <span className="text-xs font-bold text-slate-900 dark:text-slate-100">{pulseData.thisWeek.mostActiveCategory}</span>
                             </div>
                          </div>
                       </div>
@@ -425,27 +425,27 @@ function HomeContainer({ tag }: { tag: string }) {
              )}
 
              {/* Live Stats */}
-             <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm p-6">
-                <h3 className="font-bold text-[#0F172A] mb-5 flex items-center gap-2">
+             <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 flex items-center gap-2">
                    <TrendingUp className="w-4 h-4 text-[#00C08B]" /> 
                    Live Counters
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
-                   <div className="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
-                      <p className="text-xl font-black text-[#0F172A]">{formatNumber(communityStats.members)}</p>
-                      <p className="text-[10px] text-[#64748B] font-bold mt-0.5 uppercase tracking-wider">Members</p>
+                   <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
+                      <p className="text-xl font-black text-slate-900 dark:text-slate-100">{formatNumber(communityStats.members)}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-0.5 uppercase tracking-wider">Members</p>
                    </div>
-                   <div className="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
-                      <p className="text-xl font-black text-[#0F172A]">{formatNumber(communityStats.posts)}</p>
-                      <p className="text-[10px] text-[#64748B] font-bold mt-0.5 uppercase tracking-wider">Posts</p>
+                   <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
+                      <p className="text-xl font-black text-slate-900 dark:text-slate-100">{formatNumber(communityStats.posts)}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-0.5 uppercase tracking-wider">Posts</p>
                    </div>
-                   <div className="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
-                      <p className="text-xl font-black text-[#0F172A]">{formatNumber(communityStats.projects)}</p>
-                      <p className="text-[10px] text-[#64748B] font-bold mt-0.5 uppercase tracking-wider">Projects</p>
+                   <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
+                      <p className="text-xl font-black text-slate-900 dark:text-slate-100">{formatNumber(communityStats.projects)}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-0.5 uppercase tracking-wider">Projects</p>
                    </div>
-                   <div className="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
-                      <p className="text-xl font-black text-[#0F172A]">{formatNumber(communityStats.certs)}</p>
-                      <p className="text-[10px] text-[#64748B] font-bold mt-0.5 uppercase tracking-wider">Certs</p>
+                   <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
+                      <p className="text-xl font-black text-slate-900 dark:text-slate-100">{formatNumber(communityStats.certs)}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-0.5 uppercase tracking-wider">Certs</p>
                    </div>
                 </div>
              </div>
@@ -471,20 +471,20 @@ function HomeContainer({ tag }: { tag: string }) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-              className="fixed inset-y-0 left-0 w-[280px] bg-white z-50 flex flex-col shadow-2xl lg:hidden"
+              className="fixed inset-y-0 left-0 w-[280px] bg-white dark:bg-slate-900 z-50 flex flex-col shadow-2xl lg:hidden"
             >
-              <div className="flex items-center justify-between p-4 border-b border-[#E2E8F0]">
-                <h3 className="font-bold text-[#0F172A]">Filters & Navigation</h3>
+              <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+                <h3 className="font-bold text-slate-900 dark:text-slate-100">Filters & Navigation</h3>
                 <button
                   onClick={() => setMobileFiltersOpen(false)}
-                  className="p-2 text-[#64748B] hover:text-[#0F172A] rounded-md"
+                  className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 rounded-md"
                 >
                   <X size={20} />
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
                 <div className="mb-8">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-4 pl-3">Community</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 pl-3">Community</h3>
                   <nav className="space-y-1">
                     {COMMUNITY_CATEGORIES.map(category => (
                       <button
@@ -497,7 +497,7 @@ function HomeContainer({ tag }: { tag: string }) {
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                           activeCategory === category.id && !tag
                             ? "bg-[#00C08B]/10 text-[#00C08B]"
-                            : "text-[#475569] hover:bg-white hover:text-[#0F172A]"
+                            : "text-[#475569] hover:bg-white dark:bg-slate-900 hover:text-slate-900 dark:text-slate-100"
                         }`}
                       >
                         {category.icon}
@@ -507,14 +507,14 @@ function HomeContainer({ tag }: { tag: string }) {
                   </nav>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-4 pl-3">Popular Tags</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 pl-3">Popular Tags</h3>
                   <div className="flex flex-wrap gap-2 pl-3">
                     {POPULAR_TAGS.slice(0, 8).map(t => (
                       <Link 
                         key={t}
                         to={`/tag/${t}`}
                         onClick={() => setMobileFiltersOpen(false)}
-                        className="text-xs font-medium bg-white border border-[#E2E8F0] text-[#64748B] px-2.5 py-1.5 rounded-md hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
+                        className="text-xs font-medium bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 px-2.5 py-1.5 rounded-md hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
                       >
                         #{t}
                       </Link>
@@ -543,13 +543,13 @@ function HomeContainer({ tag }: { tag: string }) {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-              className="fixed inset-y-0 right-0 w-[320px] bg-[#F8FAFC] z-50 flex flex-col shadow-2xl xl:hidden"
+              className="fixed inset-y-0 right-0 w-[320px] bg-slate-50 dark:bg-slate-900 z-50 flex flex-col shadow-2xl xl:hidden"
             >
-              <div className="flex items-center justify-between p-4 border-b border-[#E2E8F0] bg-white">
-                <h3 className="font-bold text-[#0F172A]">Stats & Activity</h3>
+              <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                <h3 className="font-bold text-slate-900 dark:text-slate-100">Stats & Activity</h3>
                 <button
                   onClick={() => setMobileStatsOpen(false)}
-                  className="p-2 text-[#64748B] hover:text-[#0F172A] rounded-md"
+                  className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 rounded-md"
                 >
                   <X size={20} />
                 </button>
@@ -557,33 +557,33 @@ function HomeContainer({ tag }: { tag: string }) {
               <div className="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-6">
                 
                 {/* Online Members Pill */}
-                <div className="flex items-center gap-3 bg-white px-5 py-4 rounded-xl border border-[#E2E8F0] shadow-sm shadow-green-500/5">
+                <div className="flex items-center gap-3 bg-white dark:bg-slate-900 px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm shadow-green-500/5">
                   <div className="relative flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                   </div>
-                  <p className="text-sm font-bold text-[#0F172A]">
-                    {onlineUsers} <span className="text-[#64748B] font-medium ml-1">Members Online</span>
+                  <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                    {onlineUsers} <span className="text-slate-500 dark:text-slate-400 font-medium ml-1">Members Online</span>
                   </p>
                 </div>
 
                 {/* Live Community Activity */}
-                <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col">
-                  <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                    <h3 className="font-bold text-[#0F172A] flex items-center gap-2">
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                  <div className="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                       <ActivityIcon className="w-4 h-4 text-blue-500" /> Recent Activity
                     </h3>
                   </div>
                   <div className="p-5 space-y-5 max-h-[300px] overflow-y-auto custom-scrollbar">
-                    {activityFeed.length === 0 && <p className="text-xs text-[#64748B]">No recent activity yet...</p>}
+                    {activityFeed.length === 0 && <p className="text-xs text-slate-500 dark:text-slate-400">No recent activity yet...</p>}
                     {activityFeed.map((activity, i) => (
                         <div key={activity._id || i} className="flex gap-3 animate-fade-in">
-                          <img src={activity.userAvatar} className="w-8 h-8 rounded-full border border-[#E2E8F0]" alt="" />
+                          <img src={activity.userAvatar} className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800" alt="" />
                           <div className="flex-1 min-w-0 pt-0.5">
-                              <p className="text-sm text-[#0F172A] leading-snug">
+                              <p className="text-sm text-slate-900 dark:text-slate-100 leading-snug">
                                 <span className="font-bold">{activity.userName}</span> {activity.message}
                               </p>
-                              <p className="text-[11px] text-[#64748B] font-medium mt-1 uppercase tracking-wider">
+                              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1 uppercase tracking-wider">
                                 {formatRelativeTime(activity.createdAt)}
                               </p>
                           </div>
@@ -594,23 +594,23 @@ function HomeContainer({ tag }: { tag: string }) {
 
                 {/* Community Pulse */}
                 {pulseData && (
-                  <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-hidden flex flex-col">
-                    <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                        <h3 className="font-bold text-[#0F172A] flex items-center gap-2">
+                  <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                    <div className="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                        <h3 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                           <HeartPulse className="w-4 h-4 text-red-500" /> Community Pulse
                         </h3>
                     </div>
                     <div className="p-5 space-y-6">
                         <div>
-                          <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">Today</p>
+                          <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Today</p>
                           <div className="grid grid-cols-2 gap-3">
                               <div>
                                 <p className="text-xl font-black text-[#00C08B]">{pulseData.today.newMembers}</p>
-                                <p className="text-[11px] font-bold text-[#0F172A]">New Members</p>
+                                <p className="text-[11px] font-bold text-slate-900 dark:text-slate-100">New Members</p>
                               </div>
                               <div>
                                 <p className="text-xl font-black text-[#00C08B]">{pulseData.today.newPosts}</p>
-                                <p className="text-[11px] font-bold text-[#0F172A]">New Posts</p>
+                                <p className="text-[11px] font-bold text-slate-900 dark:text-slate-100">New Posts</p>
                               </div>
                           </div>
                         </div>

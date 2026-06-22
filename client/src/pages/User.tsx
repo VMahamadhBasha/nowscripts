@@ -92,7 +92,7 @@ export default function UserProfile() {
     setposts((prev) => prev.filter((item) => item._id !== postId));
   }
 
-  if (!data?.data) return <div className="text-center py-20 text-[#64748B] font-bold">Loading Profile...</div>;
+  if (!data?.data) return <div className="text-center py-20 text-slate-500 dark:text-slate-400 font-bold">Loading Profile...</div>;
 
   const profile = data.data;
 
@@ -100,15 +100,15 @@ export default function UserProfile() {
   const currentTab = tab || "posts";
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pt-8 pb-24 text-[#0F172A] font-sans selection:bg-now-primary selection:text-black">
+    <div className="bg-slate-50 dark:bg-slate-900 min-h-screen pt-8 pb-24 text-slate-900 dark:text-slate-100 font-sans selection:bg-now-primary selection:text-black dark:text-white">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* PROFILE HEADER CARD */}
-        <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-sm mb-8">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm mb-8">
            <div className="h-48 bg-gradient-to-r from-[#0F172A] to-[#1E293B] relative">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
               {user?._id === id && (
-                 <button className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 p-2 rounded-lg transition-colors">
+                 <button className="absolute top-4 right-4 bg-white dark:bg-slate-900/10 hover:bg-white dark:bg-slate-900/20 text-white backdrop-blur-md border border-white/20 p-2 rounded-lg transition-colors">
                     <Settings className="w-5 h-5" />
                  </button>
               )}
@@ -119,12 +119,12 @@ export default function UserProfile() {
                  <div className="flex items-end gap-6">
                     <img 
                        src={profile.avatar} 
-                       className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl border-4 border-white shadow-lg object-cover bg-white" 
+                       className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl border-4 border-white shadow-lg object-cover bg-white dark:bg-slate-900" 
                        alt="" 
                     />
                     <div className="pb-2 hidden sm:block">
-                       <h1 className="text-3xl font-extrabold text-[#0F172A]">{profile.name}</h1>
-                       <p className="text-[#64748B] font-medium mt-1">{profile.role || "ServiceNow Developer"}</p>
+                       <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">{profile.name}</h1>
+                       <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">{profile.role || "ServiceNow Developer"}</p>
                     </div>
                  </div>
                  <div className="flex items-center gap-3 pb-2">
@@ -133,12 +133,12 @@ export default function UserProfile() {
                           <button className="bg-[#0F172A] hover:bg-black text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-sm">
                              Follow
                           </button>
-                          <button className="bg-white border border-[#E2E8F0] hover:border-[#0F172A] text-[#0F172A] px-4 py-2.5 rounded-lg text-sm font-bold transition-colors">
+                          <button className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#0F172A] text-slate-900 dark:text-slate-100 px-4 py-2.5 rounded-lg text-sm font-bold transition-colors">
                              Message
                           </button>
                        </>
                     ) : (
-                       <button className="bg-white border border-[#E2E8F0] hover:border-[#0F172A] text-[#0F172A] px-6 py-2.5 rounded-lg text-sm font-bold transition-colors">
+                       <button className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#0F172A] text-slate-900 dark:text-slate-100 px-6 py-2.5 rounded-lg text-sm font-bold transition-colors">
                           Edit Profile
                        </button>
                     )}
@@ -147,8 +147,8 @@ export default function UserProfile() {
 
               {/* Mobile Name (shows only on mobile since desktop is inline with avatar) */}
               <div className="sm:hidden mb-6">
-                 <h1 className="text-2xl font-extrabold text-[#0F172A]">{profile.name}</h1>
-                 <p className="text-[#64748B] font-medium mt-1">{profile.role || "ServiceNow Developer"}</p>
+                 <h1 className="text-2xl font-extrabold text-slate-900 dark:text-slate-100">{profile.name}</h1>
+                 <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">{profile.role || "ServiceNow Developer"}</p>
               </div>
 
               <div className="max-w-2xl text-[#475569] leading-relaxed mb-6">
@@ -156,7 +156,7 @@ export default function UserProfile() {
               </div>
 
               {/* Badges & Info */}
-              <div className="flex flex-wrap items-center gap-6 mb-8 text-sm font-medium text-[#64748B]">
+              <div className="flex flex-wrap items-center gap-6 mb-8 text-sm font-medium text-slate-500 dark:text-slate-400">
                  <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4" /> Global
                  </div>
@@ -171,29 +171,29 @@ export default function UserProfile() {
               </div>
 
               {/* Stats Bar */}
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-6 border-t border-[#E2E8F0]">
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-6 border-t border-slate-200 dark:border-slate-800">
                  <Link to={`/user/${id}/followers`} className="flex items-center gap-2 hover:text-[#00C08B] transition-colors">
-                    <span className="font-extrabold text-[#0F172A] text-lg">{formatNumber(profile.followers?.length || 0)}</span>
-                    <span className="text-[#64748B] text-sm uppercase tracking-wider font-bold">Followers</span>
+                    <span className="font-extrabold text-slate-900 dark:text-slate-100 text-lg">{formatNumber(profile.followers?.length || 0)}</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider font-bold">Followers</span>
                  </Link>
                  <Link to={`/user/${id}/followings`} className="flex items-center gap-2 hover:text-[#00C08B] transition-colors">
-                    <span className="font-extrabold text-[#0F172A] text-lg">{formatNumber(profile.followings?.length || 0)}</span>
-                    <span className="text-[#64748B] text-sm uppercase tracking-wider font-bold">Following</span>
+                    <span className="font-extrabold text-slate-900 dark:text-slate-100 text-lg">{formatNumber(profile.followings?.length || 0)}</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider font-bold">Following</span>
                  </Link>
                  <div className="flex items-center gap-2">
                     <span className="font-extrabold text-[#00C08B] text-lg">{formatNumber(profile.xp || 1240)}</span>
-                    <span className="text-[#64748B] text-sm uppercase tracking-wider font-bold flex items-center gap-1"><Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" /> XP</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider font-bold flex items-center gap-1"><Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" /> XP</span>
                  </div>
                  <div className="flex items-center gap-2">
-                    <span className="font-extrabold text-[#0F172A] text-lg">{formatNumber(profile.contributionScore || 85)}</span>
-                    <span className="text-[#64748B] text-sm uppercase tracking-wider font-bold">Contribution Score</span>
+                    <span className="font-extrabold text-slate-900 dark:text-slate-100 text-lg">{formatNumber(profile.contributionScore || 85)}</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider font-bold">Contribution Score</span>
                  </div>
               </div>
            </div>
         </div>
 
         {/* CONTENT TABS */}
-        <div className="flex items-center gap-8 mb-8 border-b border-[#E2E8F0]">
+        <div className="flex items-center gap-8 mb-8 border-b border-slate-200 dark:border-slate-800">
            {optionsTab.map(opt => {
               const isActive = (tab === undefined && opt.title === 'posts') || tab === opt.title;
               return (
@@ -203,7 +203,7 @@ export default function UserProfile() {
                     className={`flex items-center gap-2 pb-4 px-1 border-b-2 transition-all font-bold text-sm uppercase tracking-wider ${
                        isActive 
                           ? "border-[#00C08B] text-[#00C08B]" 
-                          : "border-transparent text-[#64748B] hover:text-[#0F172A]"
+                          : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100"
                     }`}
                  >
                     {opt.icon} {opt.title}
@@ -219,7 +219,7 @@ export default function UserProfile() {
               {/* Followers / Following List */}
               {(tab === "followers" || tab === "followings") && (
                  <div>
-                    <h2 className="text-xl font-extrabold text-[#0F172A] mb-6">{userData.length} {toTitleCase(tab)}</h2>
+                    <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100 mb-6">{userData.length} {toTitleCase(tab)}</h2>
                     <div className="space-y-4">
                        {userData.map((u: any) => (
                           <UserCard
@@ -238,7 +238,7 @@ export default function UserProfile() {
               {/* Lists Active Query */}
               {tab === "lists" && activeQuery && (
                  <div>
-                    <h2 className="text-xl font-extrabold text-[#0F172A] mb-6">List: {activeQuery}</h2>
+                    <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100 mb-6">List: {activeQuery}</h2>
                     <ListSection listName={activeQuery} />
                  </div>
               )}
@@ -247,10 +247,10 @@ export default function UserProfile() {
               {(tab === undefined || tab === "posts") && (
                  <div className="space-y-5">
                     {posts.length === 0 ? (
-                       <div className="bg-white border border-[#E2E8F0] rounded-xl p-12 text-center">
+                       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-12 text-center">
                           <MessageSquare className="w-12 h-12 text-[#CBD5E1] mx-auto mb-4" />
-                          <h3 className="text-lg font-bold text-[#0F172A] mb-2">No posts yet</h3>
-                          <p className="text-[#64748B] text-sm">{profile.name} hasn't published anything.</p>
+                          <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">No posts yet</h3>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm">{profile.name} hasn't published anything.</p>
                        </div>
                     ) : (
                        posts.map((item: any) => (
@@ -303,25 +303,25 @@ export default function UserProfile() {
            <div className="hidden lg:block space-y-6">
               
               {/* Gamification Stats Mini Card */}
-              <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm">
-                 <h3 className="font-bold text-[#0F172A] mb-5 flex items-center gap-2">
+              <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                 <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-5 flex items-center gap-2">
                     <Target className="w-4 h-4 text-[#00C08B]" /> Achievements
                  </h3>
                  <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                       <span className="text-sm font-medium text-[#64748B]">Learning Streak</span>
-                       <span className="text-sm font-extrabold text-[#0F172A] flex items-center gap-1">
+                       <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Learning Streak</span>
+                       <span className="text-sm font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-1">
                           <FlameIcon /> {profile.learningStreak || 5} Days
                        </span>
                     </div>
                     <div className="flex items-center justify-between">
-                       <span className="text-sm font-medium text-[#64748B]">Total Badges</span>
-                       <span className="text-sm font-extrabold text-[#0F172A]">
+                       <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Badges</span>
+                       <span className="text-sm font-extrabold text-slate-900 dark:text-slate-100">
                           {profile.badges?.length || 3}
                        </span>
                     </div>
                     <div className="flex items-center justify-between">
-                       <span className="text-sm font-medium text-[#64748B]">Community Rank</span>
+                       <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Community Rank</span>
                        <span className="text-sm font-extrabold text-[#00C08B]">
                           Top 5%
                        </span>
@@ -330,11 +330,11 @@ export default function UserProfile() {
               </div>
 
               {/* Skills */}
-              <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm">
-                 <h3 className="font-bold text-[#0F172A] mb-4">Skills</h3>
+              <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                 <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-4">Skills</h3>
                  <div className="flex flex-wrap gap-2">
                     {(profile.skills?.length > 0 ? profile.skills : ["ITSM", "CMDB", "Service Portal", "JavaScript", "Flow Designer", "REST API"]).map((skill: string) => (
-                       <span key={skill} className="text-xs font-medium bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] px-2.5 py-1.5 rounded-md">
+                       <span key={skill} className="text-xs font-medium bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 px-2.5 py-1.5 rounded-md">
                           {skill}
                        </span>
                     ))}

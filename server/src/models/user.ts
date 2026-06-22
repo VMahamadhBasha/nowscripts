@@ -6,12 +6,43 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
     name: {
       type: String,
       required: true,
     },
     bio: String,
     avatar: String,
+    location: String,
+    college: String,
+    currentRole: String,
+    currentLearningTrack: String,
+    socialLinks: {
+      github: String,
+      linkedin: String,
+      portfolio: String,
+      website: String,
+    },
+    servicenow: {
+      csaStatus: { type: String, enum: ['Not Started', 'In Progress', 'Certified'], default: 'Not Started' },
+      cadStatus: { type: String, enum: ['Not Started', 'In Progress', 'Certified'], default: 'Not Started' },
+      itsmStatus: { type: String, enum: ['Not Started', 'In Progress', 'Certified'], default: 'Not Started' },
+      currentCertificationGoal: String,
+      currentModule: String,
+      learningProgress: { type: Number, default: 0 },
+    },
+    privacy: {
+      isPublicProfile: { type: Boolean, default: true },
+      showCertifications: { type: Boolean, default: true },
+      showLearningProgress: { type: Boolean, default: true },
+      showActivityFeed: { type: Boolean, default: true },
+      showEmail: { type: Boolean, default: false },
+    },
+    aboutMe: String,
     followers: [{ type: Schema.Types.ObjectId, ref: "users" }],
     followings: [{ type: Schema.Types.ObjectId, ref: "users" }],
     lists: [
@@ -43,6 +74,12 @@ const userSchema = new Schema(
     role: { type: String, default: "Member" },
     contributionScore: { type: Number, default: 0 },
     skills: [{ type: String }],
+    // Future features prep
+    leaderboardRank: { type: Number },
+    achievements: [{ 
+      title: String,
+      dateEarned: { type: Date, default: Date.now }
+    }],
   },
   { timestamps: true }
 );

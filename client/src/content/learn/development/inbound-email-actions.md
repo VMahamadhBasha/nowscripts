@@ -1,24 +1,38 @@
 ---
 title: Inbound Email Actions
+description: Complete guide for Inbound Email Actions
 duration: 45 mins
 difficulty: Beginner
-category: Development Track
-order: 43
+category: Development
+order: 10
 tags:
   - ServiceNow
-  - development
+  - Development
+lastUpdated: 2026-06-22
+author: NowScripts
 ---
 
 # Inbound Email Actions
 
-## Introduction to Inbound Email Actions
+Welcome to Lesson 10 of the Development course.
 
-Content coming soon...
+## Introduction to Inbound Email Action
 
-## Deep Dive
+Details about Introduction to Inbound Email Action will go here.
 
-Content coming soon...
+## Overview of Inbound Email Action
 
-## Summary
+Details about Overview of Inbound Email Action will go here.
 
-Content coming soon...
+## Types of Incoming Email
+
+Details about Types of Incoming Email will go here.
+
+## Create Inbound Email Action
+
+Details about Create Inbound Email Action will go here.
+
+## Importance of New, Reply and Forward
+
+Details about Importance of New, Reply and Forward will go here.
+

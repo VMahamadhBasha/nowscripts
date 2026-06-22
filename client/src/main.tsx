@@ -8,6 +8,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import Auth from "./contexts/Auth";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const queryClient = new QueryClient();
 TimeAgo.addDefaultLocale(en);
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
       <Auth>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </Auth>
     </QueryClientProvider>
   </BrowserRouter>

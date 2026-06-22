@@ -171,7 +171,7 @@ export default function Post({
       {/* Author Details */}
       {showUserList && (
         <div className="flex items-center gap-3 mb-4">
-          <Link to={`/user/${userId}`} onClick={e => e.stopPropagation()} className="relative shrink-0">
+          <Link to={`/profile/${userId}`} onClick={e => e.stopPropagation()} className="relative shrink-0">
             <img src={userImage} className="w-10 h-10 rounded-full object-cover border border-[#E2E8F0]" alt={username} />
             {userCertifications.length > 0 && (
                <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-[2px]">
@@ -180,7 +180,7 @@ export default function Post({
             )}
           </Link>
           <div className="flex flex-col min-w-0 flex-1">
-            <Link to={`/user/${userId}`} onClick={e => e.stopPropagation()} className="font-bold text-sm text-[#0F172A] hover:text-[#00C08B] truncate transition-colors">
+            <Link to={`/profile/${userId}`} onClick={e => e.stopPropagation()} className="font-bold text-sm text-[#0F172A] hover:text-[#00C08B] truncate transition-colors">
                {username}
             </Link>
             <div className="flex items-center text-xs text-[#64748B] truncate">

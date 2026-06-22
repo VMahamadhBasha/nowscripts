@@ -1,24 +1,30 @@
 ---
 title: Cloning Instance
+description: Complete guide for Cloning Instance
 duration: 45 mins
 difficulty: Beginner
-category: Administration & Security
+category: Administration
 order: 29
 tags:
   - ServiceNow
-  - administration
+  - Administration
+lastUpdated: 2026-06-22
+author: NowScripts
 ---
 
 # Cloning Instance
 
-## Introduction to Cloning Instance
+Welcome to Lesson 29 of the Administration course.
 
-Content coming soon...
+## Introduction Cloning
 
-## Deep Dive
+Details about Introduction Cloning will go here.
 
-Content coming soon...
+## Use of Cloning
 
-## Summary
+Details about Use of Cloning will go here.
 
-Content coming soon...
+## Cloning Instance
+
+Details about Cloning Instance will go here.
+

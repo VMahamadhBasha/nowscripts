@@ -11,10 +11,14 @@ export type LessonData = {
   categorySlug: string; // folder name
   title: string;
   category: string;
-  duration: string;
+  duration: string; // Used for readingTime now
+  readingTime: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced" | "Expert";
   order: number;
   tags: string[];
+  description?: string;
+  lastUpdated?: string;
+  author?: string;
   subtopics: Subtopic[];
   rawMarkdown: string; // The full markdown body used for rendering
 };
@@ -109,10 +113,12 @@ function parseMarkdownFile(rawMd: string, filepath: string, type: 'learn' | 'int
     let headingMatch;
 
     while ((headingMatch = headingRegex.exec(rawMarkdown)) !== null) {
-      const title = headingMatch[1].trim();
+      const rawTitle = headingMatch[1].trim();
+      // Remove common markdown characters for cleaner TOC titles
+      const cleanTitle = rawTitle.replace(/(\*\*|__|[*_`~])/g, '');
       subtopics.push({
-        id: generateSlug(title),
-        title,
+        id: generateSlug(cleanTitle),
+        title: cleanTitle,
         content: "" // We will let markdown-to-jsx render the full file
       });
     }
@@ -132,16 +138,25 @@ function parseMarkdownFile(rawMd: string, filepath: string, type: 'learn' | 'int
        autoCategory = INTERVIEW_FOLDER_TO_CATEGORY[categorySlug] || autoCategory;
     }
     
+    // Calculate reading time based on 200 words per minute
+    const wordCount = rawMarkdown.split(/\s+/).length;
+    const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+    const readingTime = `${readingTimeMinutes} min read`;
+
     return {
       id: `${categorySlug}-${slug}`,
       slug,
       categorySlug,
       title: frontmatter.title || slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
       category: autoCategory,
-      duration: frontmatter.duration || '15 mins',
+      duration: readingTime, // Update duration to automatically use reading time
+      readingTime: readingTime,
       difficulty: frontmatter.difficulty || 'Beginner',
       order: frontmatter.order || 999,
       tags: frontmatter.tags || [],
+      description: frontmatter.description,
+      lastUpdated: frontmatter.lastUpdated,
+      author: frontmatter.author,
       subtopics,
       rawMarkdown
     };

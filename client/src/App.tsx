@@ -21,6 +21,7 @@ const AuthRedirect = lazy(() => import("./pages/AuthRedirect"));
 const Post = lazy(() => import("./pages/Post"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const User = lazy(() => import("./pages/User"));
+const Profile = lazy(() => import("./pages/Profile"));
 const Write = lazy(() => import("./pages/Write"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const LearnDashboard = lazy(() => import("./pages/LearnDashboard"));
@@ -30,7 +31,7 @@ const RoadmapViewer = lazy(() => import("./pages/RoadmapViewer"));
 const CertificationCenter = lazy(() => import("./pages/CertificationCenter"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
 const Suggestions = lazy(() => import("./pages/Suggestions"));
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/Auth";
 import ProtectedRoute from "./router/Authentication";
 import { AuthModalProvider } from "./contexts/AuthModalContext";
@@ -147,24 +148,25 @@ export default function App() {
               <Route path="/interview-prep/:categorySlug/:lessonSlug" element={<InterviewPrepDashboard />} />
               <Route path="/community" element={<CommunityFeed />} />
               <Route path="/tag/:tag" element={<CommunityFeed />} />
-            <Route path="/projects" element={<div className="text-[#0F172A] text-center mt-20 text-2xl font-bold">Projects Coming Soon</div>} />
-            <Route path="/suggestions" element={<Suggestions />} />
-            <Route path="/search/:tab/:query" element={<SearchResults />} />
-            <Route path="/blog/:id" element={<Post />} />
-            <Route path="/user/:id/:tab?" element={<User />} />
-            <Route path="/notifications" element={<Notifications emptyNotifications={NullifyNotificationsCount} />} />
-            <Route path="/write/:postId?" element={
-              <div className="write_page mx-auto w-full md:w-3/4 lg:w-1/2 h-full">
-                <Write />
-              </div>
-            } />
-          </Route>
+              <Route path="/projects" element={<div className="text-[#0F172A] text-center mt-20 text-2xl font-bold">Projects Coming Soon</div>} />
+              <Route path="/suggestions" element={<Suggestions />} />
+              <Route path="/search/:tab/:query" element={<SearchResults />} />
+              <Route path="/blog/:id" element={<Post />} />
+              <Route path="/profile/:username/:tab?" element={<Profile />} />
+              <Route path="/user/:username/:tab?" element={<Profile />} />
+              <Route path="/notifications" element={<Notifications emptyNotifications={NullifyNotificationsCount} />} />
+              <Route path="/write/:postId?" element={
+                <div className="write_page mx-auto w-full md:w-3/4 lg:w-1/2 h-full">
+                  <Write />
+                </div>
+              } />
+            </Route>
 
-          {/* Auth Pages (No layout) */}
-          <Route path="/signin/:tab" element={<SignIn />} />
-          {/* Other standalone protected routes */}
-          <Route path="/authredirect" element={<AuthRedirect />} />
-        </Routes>
+            {/* Auth Pages (No layout) */}
+            <Route path="/signin/:tab" element={<SignIn />} />
+            {/* Other standalone protected routes */}
+            <Route path="/authredirect" element={<AuthRedirect />} />
+          </Routes>
         </Suspense>
       </div>
     </Context.Provider>

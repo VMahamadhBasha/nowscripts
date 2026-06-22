@@ -119,7 +119,7 @@ export default function Post() {
   }
 
   if (error) return <div className="text-center py-20 text-red-500 font-bold">Something went wrong...</div>;
-  if (isLoading) return <div className="text-center py-20 text-[#64748B] font-bold">Loading Community Post...</div>;
+  if (isLoading) return <div className="text-center py-20 text-slate-500 dark:text-slate-400 font-bold">Loading Community Post...</div>;
 
   const postData = data?.data.post;
   const authorData = data?.data.user;
@@ -132,18 +132,18 @@ export default function Post() {
   const diffColor = difficultyColors[postData?.difficulty || "Beginner"] || difficultyColors.Beginner;
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pt-8 pb-24 text-[#0F172A] font-sans selection:bg-now-primary selection:text-black">
+    <div className="bg-slate-50 dark:bg-slate-900 min-h-screen pt-8 pb-24 text-slate-900 dark:text-slate-100 font-sans selection:bg-now-primary selection:text-black dark:text-white">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* BACK BUTTON */}
-        <button onClick={() => navigate(-1)} className="mb-6 flex items-center text-sm font-bold text-[#64748B] hover:text-[#0F172A] transition-colors">
+        <button onClick={() => navigate(-1)} className="mb-6 flex items-center text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 transition-colors">
            <ChevronRight className="w-4 h-4 rotate-180 mr-1" /> Back to Community
         </button>
 
         <div className="flex flex-col lg:flex-row gap-10">
           
           {/* MAIN ARTICLE AREA */}
-          <div className="flex-1 min-w-0 bg-white border border-[#E2E8F0] rounded-2xl p-8 shadow-sm">
+          <div className="flex-1 min-w-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm">
              
              {/* Header Elements */}
              <div className="flex items-center gap-3 mb-6">
@@ -153,26 +153,26 @@ export default function Post() {
                 <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border ${diffColor}`}>
                    {postData?.difficulty || "Beginner"}
                 </span>
-                <span className="text-xs text-[#64748B] font-medium flex items-center gap-1 ml-auto">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 ml-auto">
                    <Clock className="w-4 h-4" /> {postData?.readTime || 5} min read
                 </span>
              </div>
 
-             <h1 className="text-3xl md:text-5xl font-extrabold text-[#0F172A] mb-8 leading-tight tracking-tight">
+             <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-slate-100 mb-8 leading-tight tracking-tight">
                 {postData?.title}
              </h1>
 
              {/* Author Info */}
-             <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-6 mb-8">
+             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-6 mb-8">
                 <div className="flex items-center gap-4">
-                   <Link to={`/user/${authorData?._id}`}>
-                      <img src={authorData?.avatar} className="w-12 h-12 rounded-full border border-[#E2E8F0] object-cover" alt="" />
+                   <Link to={`/profile/${authorData?._id}`}>
+                      <img src={authorData?.avatar} className="w-12 h-12 rounded-full border border-slate-200 dark:border-slate-800 object-cover" alt="" />
                    </Link>
                    <div>
-                      <Link to={`/user/${authorData?._id}`} className="font-bold text-[#0F172A] hover:text-[#00C08B] transition-colors block text-lg">
+                      <Link to={`/profile/${authorData?._id}`} className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#00C08B] transition-colors block text-lg">
                          {authorData?.name}
                       </Link>
-                      <div className="text-sm text-[#64748B] flex items-center gap-2">
+                      <div className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
                          <span>{authorData?.role || "ServiceNow Developer"}</span>
                          <span className="opacity-50">•</span>
                          <ReactTimeAgo date={Date.parse(postData?.createdAt)} locale="en-US" timeStyle="round" />
@@ -184,15 +184,15 @@ export default function Post() {
                 <div className="hidden sm:flex items-center gap-3">
                    <button 
                       onClick={() => postData?.userId !== user?._id && votePost()}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors ${turnBlack ? "border-[#00C08B] text-[#00C08B] bg-[#00C08B]/10" : "border-[#E2E8F0] text-[#64748B] hover:border-[#0F172A] hover:text-[#0F172A]"}`}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors ${turnBlack ? "border-[#00C08B] text-[#00C08B] bg-[#00C08B]/10" : "border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-[#0F172A] hover:text-slate-900 dark:text-slate-100"}`}
                    >
                       <Heart className={`w-4 h-4 ${turnBlack ? "fill-current" : ""}`} /> {formatNumber(votes)}
                    </button>
-                   <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#E2E8F0] text-[#64748B] hover:border-[#0F172A] hover:text-[#0F172A] transition-colors">
+                   <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-[#0F172A] hover:text-slate-900 dark:text-slate-100 transition-colors">
                       <Bookmark className="w-4 h-4" /> Save
                    </button>
                    {postData?.userId === user?._id && (
-                      <button onClick={handleClick} className="p-1.5 rounded-lg border border-[#E2E8F0] text-[#64748B] hover:border-[#0F172A] hover:text-[#0F172A] transition-colors">
+                      <button onClick={handleClick} className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-[#0F172A] hover:text-slate-900 dark:text-slate-100 transition-colors">
                          {moreIcon}
                       </button>
                    )}
@@ -209,18 +209,18 @@ export default function Post() {
              </div>
 
              {/* Markdown Content */}
-             <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:text-[#0F172A] prose-a:text-[#00C08B]">
+             <div className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:text-slate-900 dark:text-slate-100 prose-a:text-[#00C08B]">
                 <Markdown>{postData?.markdown}</Markdown>
              </div>
 
              {/* Tags Footer */}
-             <div className="mt-12 pt-8 border-t border-[#E2E8F0]">
+             <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
                 <div className="flex flex-wrap gap-2 mb-8">
                    {postData?.tags.map((item: string) => (
                       <Link
                          key={item}
                          to={`/tag/${item}`}
-                         className="text-sm font-medium bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] px-4 py-2 rounded-lg hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
+                         className="text-sm font-medium bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 px-4 py-2 rounded-lg hover:border-[#00C08B] hover:text-[#00C08B] transition-colors"
                       >
                          #{item}
                       </Link>
@@ -228,22 +228,22 @@ export default function Post() {
                 </div>
 
                 {/* Bottom Action Bar */}
-                <div className="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-xl border border-[#E2E8F0]">
+                <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                    <div className="flex items-center gap-6">
                       <button 
                          onClick={() => postData?.userId !== user?._id && votePost()}
-                         className={`flex items-center gap-2 font-bold transition-colors ${turnBlack ? "text-[#00C08B]" : "text-[#64748B] hover:text-[#0F172A]"}`}
+                         className={`flex items-center gap-2 font-bold transition-colors ${turnBlack ? "text-[#00C08B]" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100"}`}
                       >
                          <Heart className={`w-5 h-5 ${turnBlack ? "fill-current" : ""}`} /> {formatNumber(votes)}
                       </button>
-                      <button className="flex items-center gap-2 font-bold text-[#64748B] hover:text-[#0F172A] transition-colors">
+                      <button className="flex items-center gap-2 font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 transition-colors">
                          <MessageSquare className="w-5 h-5" /> {formatNumber(postData?.comments?.length || 0)}
                       </button>
                    </div>
                    <div className="flex items-center gap-4">
                       <button 
                          onClick={() => webShare({ title: postData?.title, text: "Check out this ServiceNow topic on NowScripts", url: postUrl })}
-                         className="flex items-center gap-2 text-sm font-bold text-[#64748B] hover:text-[#0F172A] transition-colors"
+                         className="flex items-center gap-2 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 transition-colors"
                       >
                          <Share2 className="w-5 h-5" /> Share
                       </button>
@@ -253,8 +253,8 @@ export default function Post() {
 
              {/* Related Posts */}
              {id && authorData?._id && (
-                <div className="mt-16 pt-10 border-t-2 border-[#E2E8F0] border-dashed">
-                   <h3 className="text-2xl font-bold text-[#0F172A] mb-8">More from {authorData?.name}</h3>
+                <div className="mt-16 pt-10 border-t-2 border-slate-200 dark:border-slate-800 border-dashed">
+                   <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8">More from {authorData?.name}</h3>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <MoreFrom
                          userId={authorData?._id}
@@ -276,10 +276,10 @@ export default function Post() {
                 
                 {/* Gamified Author Card */}
                 {authorData && (
-                   <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm text-center">
-                      <img src={authorData.avatar} className="w-20 h-20 rounded-full mx-auto mb-4 border border-[#E2E8F0] object-cover" alt="" />
-                      <h3 className="font-extrabold text-lg text-[#0F172A] mb-1">{authorData.name}</h3>
-                      <p className="text-sm font-medium text-[#64748B] mb-4">{authorData.role || "ServiceNow Expert"}</p>
+                   <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm text-center">
+                      <img src={authorData.avatar} className="w-20 h-20 rounded-full mx-auto mb-4 border border-slate-200 dark:border-slate-800 object-cover" alt="" />
+                      <h3 className="font-extrabold text-lg text-slate-900 dark:text-slate-100 mb-1">{authorData.name}</h3>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4">{authorData.role || "ServiceNow Expert"}</p>
                       
                       <div className="flex items-center justify-center gap-2 mb-5">
                          {authorData.certifications?.length > 0 ? authorData.certifications.slice(0,2).map((cert: string) => (
@@ -303,14 +303,14 @@ export default function Post() {
                          </button>
                       )}
 
-                      <div className="grid grid-cols-2 gap-4 border-t border-[#E2E8F0] pt-4 mt-4 text-left">
+                      <div className="grid grid-cols-2 gap-4 border-t border-slate-200 dark:border-slate-800 pt-4 mt-4 text-left">
                          <div>
-                            <p className="text-xs text-[#64748B] font-bold uppercase tracking-wider mb-1">XP</p>
-                            <p className="font-black text-[#0F172A] text-lg">{formatNumber(authorData.xp || Math.floor(Math.random() * 5000))}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">XP</p>
+                            <p className="font-black text-slate-900 dark:text-slate-100 text-lg">{formatNumber(authorData.xp || Math.floor(Math.random() * 5000))}</p>
                          </div>
                          <div>
-                            <p className="text-xs text-[#64748B] font-bold uppercase tracking-wider mb-1">Followers</p>
-                            <p className="font-black text-[#0F172A] text-lg">{formatNumber(authorData.followers?.length || 0)}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">Followers</p>
+                            <p className="font-black text-slate-900 dark:text-slate-100 text-lg">{formatNumber(authorData.followers?.length || 0)}</p>
                          </div>
                       </div>
                    </div>
@@ -318,11 +318,11 @@ export default function Post() {
 
                 {/* Table of Contents */}
                 {toc.length > 0 && (
-                   <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm">
-                      <h4 className="font-bold text-xs uppercase tracking-wider text-[#0F172A] mb-4">Table of Contents</h4>
+                   <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                      <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-slate-100 mb-4">Table of Contents</h4>
                       <div className="space-y-3">
                          {toc.map(item => (
-                            <div key={item.id} className="text-sm font-medium text-[#64748B] hover:text-[#00C08B] cursor-pointer transition-colors line-clamp-1">
+                            <div key={item.id} className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#00C08B] cursor-pointer transition-colors line-clamp-1">
                                {item.text}
                             </div>
                          ))}
@@ -352,13 +352,13 @@ export default function Post() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-              className="fixed inset-x-0 bottom-0 max-h-[80vh] bg-white z-50 flex flex-col shadow-2xl rounded-t-2xl lg:hidden"
+              className="fixed inset-x-0 bottom-0 max-h-[80vh] bg-white dark:bg-slate-900 z-50 flex flex-col shadow-2xl rounded-t-2xl lg:hidden"
             >
-              <div className="flex items-center justify-between p-4 border-b border-[#E2E8F0]">
-                <h3 className="font-bold text-[#0F172A]">Table of Contents</h3>
+              <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+                <h3 className="font-bold text-slate-900 dark:text-slate-100">Table of Contents</h3>
                 <button
                   onClick={() => setMobileTocOpen(false)}
-                  className="p-2 text-[#64748B] hover:text-[#0F172A] rounded-md"
+                  className="p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 rounded-md"
                 >
                   <X size={20} />
                 </button>
@@ -368,11 +368,11 @@ export default function Post() {
                     <div 
                       key={item.id} 
                       onClick={() => setMobileTocOpen(false)}
-                      className="text-sm font-medium text-[#64748B] hover:text-[#00C08B] cursor-pointer transition-colors"
+                      className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#00C08B] cursor-pointer transition-colors"
                     >
                         {item.text}
                     </div>
-                )) : <div className="text-sm text-[#64748B]">No table of contents available.</div>}
+                )) : <div className="text-sm text-slate-500 dark:text-slate-400">No table of contents available.</div>}
               </div>
             </motion.div>
           </>

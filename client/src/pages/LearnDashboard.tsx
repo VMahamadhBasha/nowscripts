@@ -5,31 +5,9 @@ import {
   CheckSquare, Award, Clock, Target, List, Video, BookOpen, ChevronLeft, ChevronRight as IconNext, CheckCircle, X
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
-import Markdown from "markdown-to-jsx";
+import { MarkdownRenderer } from "../components/markdown/MarkdownRenderer";
 import { courseData, LessonData, Subtopic, generateSlug } from "../utils/markdownParser";
 
-// Custom heading renderer to auto-generate IDs for scroll spy
-const CustomH2 = ({ children, ...props }: any) => {
-  // Try to extract text content. children might be a string or an array of elements/strings
-  let text = "";
-  if (typeof children === "string") text = children;
-  else if (Array.isArray(children)) {
-    text = children.map((c: any) => typeof c === "string" ? c : "").join("");
-  }
-  const id = generateSlug(text);
-  
-  // We wrap it in a section-like div to keep the same structure as before
-  return (
-    <section id={id} className="scroll-mt-24 group relative mt-24 mb-6">
-      <div className="flex items-center">
-        {/* We'll handle the check circle absolutely in CSS or just rely on the existing styling */}
-        <h2 className="text-3xl font-bold text-[#0F172A]" {...props}>
-          {children}
-        </h2>
-      </div>
-    </section>
-  );
-};
 
 export default function LearnDashboard() {
   const { categorySlug, lessonSlug } = useParams();
@@ -206,9 +184,9 @@ export default function LearnDashboard() {
   const contentToRender = activeLesson.rawMarkdown.replace(/^---[\s\S]+?---/, '').trim();
 
   return (
-    <div className="bg-[#FFFFFF] text-[#0F172A] font-sans flex flex-col h-full overflow-hidden selection:bg-now-primary selection:text-black relative">
+    <div className="bg-white dark:bg-slate-900 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans flex flex-col h-full overflow-hidden selection:bg-now-primary selection:text-black relative">
       
-      <div className="absolute top-0 left-0 w-full h-1 bg-[#E2E8F0] z-50">
+      <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 z-50">
         <div 
           className="h-full bg-now-primary transition-all duration-300 ease-out" 
           style={{ width: `${readingProgress}%` }}
@@ -224,37 +202,37 @@ export default function LearnDashboard() {
           />
         )}
 
-        <div className={`absolute lg:relative w-80 flex-shrink-0 border-r border-[#E2E8F0] bg-[#FFFFFF] flex flex-col z-50 h-full overflow-hidden transition-transform duration-300 ${
+        <div className={`absolute lg:relative w-80 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 dark:bg-slate-950 flex flex-col z-50 h-full overflow-hidden transition-transform duration-300 ${
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}>
-          <div className="p-6 border-b border-[#E2E8F0]">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-[#0F172A]">
+          <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-slate-100">
               <BookOpen className="text-now-primary w-5 h-5" /> Course Contents
             </h2>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400" />
               <input 
                 type="text" 
                 placeholder="Search lessons..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-now-primary transition-colors text-[#0F172A] placeholder-[#64748B]"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-now-primary transition-colors text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
               />
             </div>
           </div>
 
           <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar pb-24">
             {filteredData.map((section, sIdx) => (
-              <div key={sIdx} className="border-b border-[#E2E8F0]">
+              <div key={sIdx} className="border-b border-slate-200 dark:border-slate-800">
                 <button 
                   onClick={() => toggleSection(section.sectionTitle)}
-                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-[#F8FAFC] transition-colors"
+                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 dark:bg-slate-900 transition-colors"
                 >
-                  <span className="font-bold text-sm text-[#0F172A]">{section.sectionTitle}</span>
+                  <span className="font-bold text-sm text-slate-900 dark:text-slate-100">{section.sectionTitle}</span>
                   {expandedSections[section.sectionTitle] ? (
-                    <ChevronDown className="w-4 h-4 text-[#64748B]" />
+                    <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                   ) : (
-                    <ChevronRight className="w-4 h-4 text-[#64748B]" />
+                    <ChevronRight className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                   )}
                 </button>
 
@@ -264,21 +242,21 @@ export default function LearnDashboard() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden bg-[#F8FAFC]/50"
+                      className="overflow-hidden bg-slate-50/50 dark:bg-slate-900/50"
                     >
                       {section.lessons.map(lesson => {
                         const isLessonActive = activeLesson.id === lesson.id;
                         const isLessonExpanded = expandedLessons[lesson.id];
 
                         return (
-                          <div key={lesson.id} className="border-b border-[#E2E8F0] last:border-b-0">
+                          <div key={lesson.id} className="border-b border-slate-200 dark:border-slate-800 last:border-b-0">
                             <div className="flex items-stretch">
                               <button
                                 onClick={() => setActiveLesson(lesson)}
                                 className={`flex-1 px-6 py-3 flex items-center gap-3 text-left transition-all ${
                                   isLessonActive 
-                                    ? "bg-now-primary/5 text-[#0F172A]" 
-                                    : "text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]"
+                                    ? "bg-now-primary/5 text-slate-900 dark:text-slate-100" 
+                                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:bg-slate-900 hover:text-slate-900 dark:text-slate-100"
                                 }`}
                               >
                                 <div className="flex flex-col truncate flex-1">
@@ -286,21 +264,22 @@ export default function LearnDashboard() {
                                     Lesson {lesson.order}
                                   </span>
                                   <span className={`text-sm truncate ${isLessonActive ? "font-bold" : "font-medium"}`}>
-                                    {lesson.title}
+                                    {lesson.title.replace(/\*\*/g, '')}
                                   </span>
                                 </div>
                               </button>
-                              
-                              <button 
-                                onClick={(e) => toggleLesson(lesson.id, e)}
-                                className={`px-4 flex items-center justify-center transition-colors border-l border-transparent ${isLessonActive ? "hover:bg-now-primary/10" : "hover:bg-[#E2E8F0]"}`}
-                              >
-                                {isLessonExpanded ? (
-                                  <ChevronDown className={`w-4 h-4 ${isLessonActive ? "text-now-primary" : "text-[#64748B]"}`} />
-                                ) : (
-                                  <ChevronRight className={`w-4 h-4 ${isLessonActive ? "text-now-primary" : "text-[#64748B]"}`} />
-                                )}
-                              </button>
+                              {lesson.subtopics && lesson.subtopics.length > 0 && (
+                                <button 
+                                  onClick={(e) => toggleLesson(lesson.id, e)}
+                                  className={`px-4 flex items-center justify-center transition-colors border-l border-transparent ${isLessonActive ? "hover:bg-now-primary/10" : "hover:bg-slate-200 dark:bg-slate-800"}`}
+                                >
+                                  {isLessonExpanded ? (
+                                    <ChevronDown className={`w-4 h-4 ${isLessonActive ? "text-now-primary" : "text-slate-500 dark:text-slate-400"}`} />
+                                  ) : (
+                                    <ChevronRight className={`w-4 h-4 ${isLessonActive ? "text-now-primary" : "text-slate-500 dark:text-slate-400"}`} />
+                                  )}
+                                </button>
+                              )}
                             </div>
 
                             <AnimatePresence>
@@ -309,7 +288,7 @@ export default function LearnDashboard() {
                                   initial={{ height: 0, opacity: 0 }}
                                   animate={{ height: "auto", opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
-                                  className="overflow-hidden bg-[#FFFFFF]"
+                                  className="overflow-hidden bg-white dark:bg-slate-900 dark:bg-slate-950"
                                 >
                                   <div className="py-2">
                                     {lesson.subtopics.map(sub => {
@@ -330,10 +309,10 @@ export default function LearnDashboard() {
                                           className={`w-full px-6 py-2 pl-12 flex items-center text-left text-sm transition-colors ${
                                             isSubActive
                                               ? "text-now-primary font-bold bg-now-primary/5 border-r-2 border-now-primary"
-                                              : "text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]"
+                                              : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:bg-slate-900"
                                           }`}
                                         >
-                                          <div className={`w-1.5 h-1.5 rounded-full mr-3 shrink-0 transition-colors ${isSubActive ? "bg-now-primary" : "bg-[#E2E8F0]"}`} />
+                                          <div className={`w-1.5 h-1.5 rounded-full mr-3 shrink-0 transition-colors ${isSubActive ? "bg-now-primary" : "bg-slate-200 dark:bg-slate-800"}`} />
                                           <span className="truncate">{sub.title}</span>
                                         </button>
                                       );
@@ -356,7 +335,7 @@ export default function LearnDashboard() {
 
         <div 
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto bg-[#FFFFFF] custom-scrollbar relative h-full flex justify-center"
+          className="flex-1 overflow-y-auto bg-white dark:bg-slate-900 dark:bg-slate-950 custom-scrollbar relative h-full flex justify-center"
         >
           <div className="w-full max-w-4xl px-8 lg:px-16 py-12 pb-48">
             <AnimatePresence mode="wait">
@@ -367,58 +346,25 @@ export default function LearnDashboard() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="mb-16 border-b border-[#E2E8F0] pb-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <button 
-                      onClick={() => setMobileMenuOpen(true)}
-                      className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-[#F8FAFC] text-[#0F172A]"
-                    >
-                      <List className="w-5 h-5" />
-                    </button>
-                    <span className="text-sm font-bold text-now-primary bg-now-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">
-                      Lesson {activeLesson.order}
-                    </span>
-                    <span className="text-sm text-[#64748B] font-medium hidden sm:inline">{activeLesson.category}</span>
-                  </div>
-                  
-                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-8 text-[#0F172A] leading-tight">
-                    {activeLesson.title}
-                  </h1>
-
-                  <div className="flex flex-wrap items-center gap-4 text-sm font-medium">
-                    <div className="flex items-center gap-2 bg-[#F8FAFC] border border-[#E2E8F0] px-4 py-2 rounded-lg text-[#0F172A]">
-                      <Clock className="w-4 h-4 text-[#64748B]" />
-                      <span>{activeLesson.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-green-500/10 text-green-700 border border-green-500/20 px-4 py-2 rounded-lg">
-                      <Award className="w-4 h-4" />
-                      <span>{activeLesson.difficulty}</span>
-                    </div>
-                  </div>
+                <div className="mb-4 flex items-center">
+                  <button 
+                    onClick={() => setMobileMenuOpen(true)}
+                    className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 flex items-center gap-2 font-medium"
+                  >
+                    <List className="w-5 h-5" /> Menu
+                  </button>
                 </div>
+                
+                <MarkdownRenderer content={contentToRender} lessonData={activeLesson} />
 
-                <div className="prose prose-slate prose-lg max-w-none text-[#0F172A] leading-loose">
-                   <Markdown
-                     options={{
-                       overrides: {
-                         h2: {
-                           component: CustomH2
-                         }
-                       }
-                     }}
-                   >
-                     {contentToRender}
-                   </Markdown>
-                </div>
-
-                <div className="mt-32 pt-10 border-t border-[#E2E8F0] flex items-center justify-between">
+                <div className="mt-32 pt-10 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                    <button 
                      onClick={goToPrevLesson}
                      disabled={currentIndex === 0}
                      className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
                        currentIndex === 0 
-                         ? "opacity-50 cursor-not-allowed text-[#64748B] bg-[#F8FAFC]" 
-                         : "bg-[#FFFFFF] text-[#0F172A] border border-[#E2E8F0] shadow-sm hover:bg-[#F8FAFC] hover:border-now-primary"
+                         ? "opacity-50 cursor-not-allowed text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900" 
+                         : "bg-white dark:bg-slate-900 dark:bg-slate-950 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 shadow-sm hover:bg-slate-50 dark:bg-slate-900 hover:border-now-primary"
                      }`}
                    >
                      <ChevronLeft className="w-5 h-5" /> Previous Lesson
@@ -434,7 +380,7 @@ export default function LearnDashboard() {
                      disabled={currentIndex === allLessons.length - 1}
                      className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all shadow-sm ${
                        currentIndex === allLessons.length - 1
-                         ? "opacity-50 cursor-not-allowed text-gray-500 bg-gray-100" 
+                         ? "opacity-50 cursor-not-allowed text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800" 
                          : "bg-now-primary text-white hover:bg-now-accent"
                      }`}
                    >
@@ -454,12 +400,12 @@ export default function LearnDashboard() {
             onClick={() => setTocMenuOpen(false)}
           />
         )}
-        <div className={`fixed right-0 top-0 xl:relative w-72 flex-shrink-0 border-l border-[#E2E8F0] bg-[#FFFFFF] flex flex-col z-50 h-full overflow-hidden transition-transform duration-300 ${
+        <div className={`fixed right-0 top-0 xl:relative w-72 flex-shrink-0 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 dark:bg-slate-950 flex flex-col z-50 h-full overflow-hidden transition-transform duration-300 ${
           tocMenuOpen ? "translate-x-0" : "translate-x-full xl:translate-x-0"
         }`}>
           <div className="p-6 pb-4 flex items-center justify-between">
-            <h3 className="font-bold text-[#0F172A] uppercase tracking-widest text-xs">On This Page</h3>
-            <button onClick={() => setTocMenuOpen(false)} className="xl:hidden p-1 text-[#64748B] hover:text-[#0F172A]"><X size={18} /></button>
+            <h3 className="font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest text-xs">On This Page</h3>
+            <button onClick={() => setTocMenuOpen(false)} className="xl:hidden p-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100"><X size={18} /></button>
           </div>
           <div className="flex-1 overflow-y-auto px-6 pb-24 space-y-2 custom-scrollbar">
             {activeLesson.subtopics && activeLesson.subtopics.map(sub => (
@@ -469,7 +415,7 @@ export default function LearnDashboard() {
                  className={`block text-left text-sm transition-all w-full border-l-2 pl-4 py-2 ${
                    activeSubtopicId === sub.id 
                      ? "border-now-primary text-now-primary font-bold bg-now-primary/5" 
-                     : "border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:border-[#64748B]"
+                     : "border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-100 hover:border-[#64748B]"
                  }`}
                >
                  {sub.title}

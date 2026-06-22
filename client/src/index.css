@@ -9,6 +9,7 @@
 
 body {
   overflow-y: scroll;
+  @apply bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100;
 }
 
 @media (max-width: 768px) {
@@ -67,14 +68,14 @@ h3,
 h4 {
   margin: 15px 0;
   font-family: 'Poppins';
-  color: black;
+  @apply text-slate-900 dark:text-slate-100;
   font-weight: bold;
 }
 
 .markdown>h5,
 h6 {
   margin: 8px 0;
-  color: black;
+  @apply text-slate-900 dark:text-slate-100;
   font-family: 'Poppins';
 }
 

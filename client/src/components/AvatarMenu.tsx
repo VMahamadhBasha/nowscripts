@@ -1,9 +1,11 @@
+import { Settings } from 'lucide-react';
 import Divider from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { DEFAULT_IMG } from "../App";
+import { PreferencesModal } from "./PreferencesModal";
 import {
   carrotIcon,
   librabryIcon,
@@ -100,6 +102,7 @@ function AuthMenu({
   logout(): void;
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (
     event: MouseEvent<HTMLImageElement | HTMLSpanElement>
@@ -235,6 +238,30 @@ function AuthMenu({
             </p>
           </MenuItem>
         </Link>
+        <MenuItem
+          sx={[{ "&:hover": { backgroundColor: "transparent" } }]}
+          onClick={() => {
+            handleClose();
+            setIsPreferencesOpen(true);
+          }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            padding: "8px 18px",
+          }}
+        >
+          <span
+            style={{ color: "gray", margin: "0 10px", marginBottom: "-5px", display: "flex", alignItems: "center" }}
+          >
+            <Settings className="w-[18px] h-[18px] text-[#6b6a6a]" />
+          </span>
+          <p
+            style={{ marginLeft: "5px", color: "#6b6a6a", fontSize: "14px" }}
+          >
+            Preferences
+          </p>
+        </MenuItem>
         <Divider sx={{ margin: "10px 0" }} />
         <MenuItem
           sx={[{ "&:hover": { backgroundColor: "transparent" } }]}
@@ -266,6 +293,10 @@ function AuthMenu({
           </span>
         </MenuItem>
       </Menu>
+      <PreferencesModal 
+        isOpen={isPreferencesOpen} 
+        onClose={() => setIsPreferencesOpen(false)} 
+      />
     </div>
   );
 }

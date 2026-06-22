@@ -1,24 +1,50 @@
 ---
 title: UI Actions
+description: Complete guide for UI Actions
 duration: 45 mins
 difficulty: Beginner
-category: Development Track
-order: 37
+category: Development
+order: 4
 tags:
   - ServiceNow
-  - development
+  - Development
+lastUpdated: 2026-06-22
+author: NowScripts
 ---
 
 # UI Actions
 
+Welcome to Lesson 4 of the Development course.
+
 ## Introduction to UI Actions
 
-Content coming soon...
+Details about Introduction to UI Actions will go here.
 
-## Deep Dive
+## Importance of UI Action
 
-Content coming soon...
+Details about Importance of UI Action will go here.
 
-## Summary
+## Working with Existing UI Actions
 
-Content coming soon...
+Details about Working with Existing UI Actions will go here.
+
+## Create new UI Action
+
+Details about Create new UI Action will go here.
+
+## Creating UI Actions into Different Places
+
+Details about Creating UI Actions into Different Places will go here.
+
+## Working with Client Side UI Actions
+
+Details about Working with Client Side UI Actions will go here.
+
+## Importance of gsftsubmit in UI Action
+
+Details about Importance of gsftsubmit in UI Action will go here.
+
+## Working with more Examples
+
+Details about Working with more Examples will go here.
+

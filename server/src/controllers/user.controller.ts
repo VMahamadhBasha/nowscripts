@@ -93,8 +93,26 @@ export const suggestUsers = asyncHandler(async (req, res, next) => {
 
 export const getUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
-  const user = await User.findOne({ _id: userId });
+  const mongoose = require("mongoose");
+  
+  let user;
+  if (mongoose.Types.ObjectId.isValid(userId)) {
+    user = await User.findOne({ _id: userId });
+  }
+  
+  if (!user) {
+    // Fallback to username
+    user = await User.findOne({ username: userId });
+  }
+  
   if (!user) throw new ServerError(400, "User doesn't exist");
+  
+  // If no username exists, generate a temporary one from email just in case we need it
+  if (!user.username && user.email) {
+    user.username = user.email.split('@')[0] + Math.floor(Math.random() * 10000);
+    await user.save();
+  }
+  
   res.json(user);
 });
 
