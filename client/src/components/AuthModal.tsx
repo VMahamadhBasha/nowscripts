@@ -71,17 +71,18 @@ export function AuthModal() {
     
     // TEMP DEMO LOGIN
     // Remove before production deployment
-    if (email === "admin@gmail.com" && password === "12345678") {
+    if (email === "mowadmin@gmail.com" && password === "now12345") {
       handleUser({
         _id: "demo_admin_123",
-        name: "Demo Admin",
-        email: "admin@gmail.com",
+        name: "Admin User",
+        email: "mowadmin@gmail.com",
+        role: "Admin",
         avatar: "https://i.pravatar.cc/150?u=admin",
-        bio: "Demo Account",
+        bio: "Demo Admin Account",
         list: []
-      });
+      } as any);
       closeModal();
-      navigate("/learn");
+      navigate("/admin/certificates");
       return;
     }
 
