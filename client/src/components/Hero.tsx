@@ -160,34 +160,6 @@ export default function Hero() {
               className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(0,229,255,0.2)] relative z-10"
             />
 
-            {/* Floating Glassmorphism UI Cards */}
-            <motion.div 
-              animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-              className="absolute top-[15%] left-0 md:left-[5%] z-20 p-4 rounded-xl bg-[#0F172A]/60 backdrop-blur-xl border border-[rgba(255,255,255,0.1)] shadow-2xl flex items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-lg">
-                ✓
-              </div>
-              <div>
-                <p className="text-white font-bold text-sm">Flow Deployed</p>
-                <p className="text-[#94A3B8] text-xs">0 errors, 3 warnings</p>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
-              transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 2 }}
-              className="absolute bottom-[20%] right-0 md:right-[5%] z-20 p-4 rounded-xl bg-[#0F172A]/60 backdrop-blur-xl border border-[rgba(255,255,255,0.1)] shadow-2xl flex items-center gap-3"
-            >
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#00E5FF] to-[#7C3AED] flex items-center justify-center text-white font-bold">
-                JS
-              </div>
-              <div>
-                <p className="text-white font-bold text-sm">Script Validated</p>
-                <p className="text-[#94A3B8] text-xs">Execution: 42ms</p>
-              </div>
-            </motion.div>
           </div>
         </motion.div>
       </div>
