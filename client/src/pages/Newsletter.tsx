@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Search, Filter, Calendar, ExternalLink, Sparkles, BookOpen, Settings, Users, Flame, ChevronLeft, ChevronRight, Briefcase } from "lucide-react";
 import { useAppContext } from "../App";
+import { url } from "../baseUrl";
 
 interface Article {
   _id: string;
@@ -83,12 +84,19 @@ export default function Newsletter() {
     if (category !== "All") params.append("category", category);
     if (search) params.append("search", search);
 
-    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/newsletter?${params.toString()}`);
-    // If backend returns array directly (fallback), adapt it
-    if (Array.isArray(response.data)) {
-      return { articles: response.data, pagination: { total: response.data.length, page: 1, pages: 1 } };
+    try {
+      const response = await axios.get(`${url}/newsletter?${params.toString()}`);
+      if (response.data && Array.isArray(response.data.articles)) {
+        return response.data;
+      }
+      if (Array.isArray(response.data)) {
+        return { articles: response.data, pagination: { total: response.data.length, page: 1, pages: 1 } };
+      }
+      return { articles: [], pagination: { total: 0, page: 1, pages: 1 } };
+    } catch (err) {
+      console.error(err);
+      return { articles: [], pagination: { total: 0, page: 1, pages: 1 } };
     }
-    return response.data;
   };
 
   const { data, isLoading, isError } = useQuery<NewsletterResponse>({

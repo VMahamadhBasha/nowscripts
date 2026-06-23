@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ArrowRight, Calendar, ExternalLink, Flame, BookOpen, Settings, Users, Sparkles, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { url } from "../../baseUrl";
 
 interface Article {
   _id: string;
@@ -17,8 +18,19 @@ interface Article {
 }
 
 const fetchLatestArticles = async (): Promise<Article[]> => {
-  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/newsletter?limit=4`);
-  return response.data.articles || response.data; // Handle both paginated and non-paginated responses
+  try {
+    const response = await axios.get(`${url}/newsletter?limit=4`);
+    if (response.data && Array.isArray(response.data.articles)) {
+      return response.data.articles;
+    }
+    if (Array.isArray(response.data)) {
+      return response.data;
+    }
+    return [];
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 };
 
 const getCategoryIcon = (category: string) => {
