@@ -65,10 +65,11 @@ export default function Navbar({
           }}
         >
           <Link to="/learn" className="hidden md:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Learn</Link>
-          <Link to="#" className="hidden md:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Roadmaps</Link>
-          <Link to="#" className="hidden lg:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Projects</Link>
+          <Link to="/roadmaps" className="hidden md:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Roadmaps</Link>
+          <Link to="/projects" className="hidden lg:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Projects</Link>
           <Link to="/interview-prep" className="hidden lg:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Interview Prep</Link>
           <Link to="/community" className="hidden md:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Community</Link>
+          <Link to="/newsletter" className="hidden md:block" style={{ textDecoration: "none", color: "#64748B", fontSize: "14px", whiteSpace: "nowrap" }}>Newsletter</Link>
           <Link
             to="/write"
             className="writeBtn"
@@ -153,6 +154,7 @@ export default function Navbar({
                   <Link to="/projects" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[#0F172A] hover:bg-[#F8FAFC] rounded-md font-medium">Projects</Link>
                   <Link to="/interview-prep" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[#0F172A] hover:bg-[#F8FAFC] rounded-md font-medium">Interview Prep</Link>
                   <Link to="/community" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[#0F172A] hover:bg-[#F8FAFC] rounded-md font-medium">Community</Link>
+                  <Link to="/newsletter" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[#0F172A] hover:bg-[#F8FAFC] rounded-md font-medium">Newsletter</Link>
                 </nav>
               </div>
             </motion.div>

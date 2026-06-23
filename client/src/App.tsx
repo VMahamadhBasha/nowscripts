@@ -29,6 +29,7 @@ const InterviewPrepDashboard = lazy(() => import("./pages/InterviewPrepDashboard
 const RoadmapDashboard = lazy(() => import("./pages/RoadmapDashboard"));
 const RoadmapViewer = lazy(() => import("./pages/RoadmapViewer"));
 const CertificationCenter = lazy(() => import("./pages/CertificationCenter"));
+const Newsletter = lazy(() => import("./pages/Newsletter"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
 const Suggestions = lazy(() => import("./pages/Suggestions"));
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
@@ -138,6 +139,7 @@ export default function App() {
               <Route path="/roadmaps" element={<RoadmapDashboard />} />
               <Route path="/roadmaps/:slug" element={<RoadmapViewer />} />
               <Route path="/certifications" element={<CertificationCenter />} />
+              <Route path="/newsletter" element={<Newsletter />} />
             </Route>
 
             {/* Protected App Layout Routes (Requires Login) */}

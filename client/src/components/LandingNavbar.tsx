@@ -34,8 +34,8 @@ export default function LandingNavbar() {
           <Link to="/learn" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
             Learn
           </Link>
-          <Link to="/roadmaps" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
-            Roadmaps
+          <Link to="/newsletter" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
+            Newsletter
           </Link>
           <Link to="/community" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
             Community
@@ -107,7 +107,7 @@ export default function LandingNavbar() {
               <nav className="flex flex-col space-y-1 px-4">
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Home</Link>
                 <Link to="/learn" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Learn</Link>
-                <Link to="/roadmaps" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Roadmaps</Link>
+                <Link to="/newsletter" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Newsletter</Link>
                 <Link to="/projects" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Projects</Link>
                 <Link to="/interview-prep" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Interview Prep</Link>
                 <Link to="/community" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:bg-gray-800 rounded-md font-medium">Community</Link>
