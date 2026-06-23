@@ -34,6 +34,7 @@ const SearchResults = lazy(() => import("./pages/SearchResults"));
 const Suggestions = lazy(() => import("./pages/Suggestions"));
 const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
 const AdminCertificates = lazy(() => import("./pages/admin/AdminCertificates"));
+const CertificateStudio = lazy(() => import("./pages/admin/CertificateStudio"));
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/Auth";
 import ProtectedRoute from "./router/Authentication";
@@ -162,6 +163,7 @@ export default function App() {
               <Route path="/user/:username/:tab?" element={<Profile />} />
               <Route path="/notifications" element={<Notifications emptyNotifications={NullifyNotificationsCount} />} />
               <Route path="/admin/certificates" element={<AdminCertificates />} />
+              <Route path="/admin/certificates/studio" element={<CertificateStudio />} />
               <Route path="/write/:postId?" element={
                 <div className="write_page mx-auto w-full md:w-3/4 lg:w-1/2 h-full">
                   <Write />

@@ -31,11 +31,14 @@ const generateVerificationNumber = () => {
 
 export const createCertificate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { candidateName, email, internshipTitle, companyName, issueDate, startDate, endDate, mentorName } = req.body;
+    const { 
+      candidateName, email, internshipTitle, companyName, 
+      issueDate, startDate, endDate, mentorName,
+      templateType, department, projectUndertaken, location
+    } = req.body;
 
     const certificateId = await generateCertificateId();
     const verificationNumber = generateVerificationNumber();
-    const verificationUrl = `${req.protocol}://${req.get("host")}/verify/${certificateId}`; // Usually we use a frontend URL but this is just a placeholder, the frontend will override this or display its own. Wait, we should probably just store the path or let the frontend reconstruct it. Let's just store the relative path.
     const relativeVerificationUrl = `/verify/${certificateId}`;
 
     const newCertificate = await Certificate.create({
@@ -49,6 +52,10 @@ export const createCertificate = async (req: Request, res: Response, next: NextF
       startDate,
       endDate,
       mentorName,
+      templateType,
+      department,
+      projectUndertaken,
+      location,
       verificationUrl: relativeVerificationUrl,
       issuedBy: req.userId,
     });

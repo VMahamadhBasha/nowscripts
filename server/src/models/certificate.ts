@@ -72,6 +72,20 @@ const certificateSchema = new Schema(
       ref: "users",
       required: true,
     },
+    templateType: {
+      type: String,
+      enum: [
+        "Internship Completion Letter",
+        "Internship Certificate",
+        "Experience Letter",
+        "Appreciation Certificate",
+        "Training Completion Certificate"
+      ],
+      default: "Internship Completion Letter"
+    },
+    department: { type: String },
+    projectUndertaken: { type: String },
+    location: { type: String, default: "Remote" },
     // Future Digital Badge System Prep
     badgeId: { type: String },
     badgeName: { type: String },

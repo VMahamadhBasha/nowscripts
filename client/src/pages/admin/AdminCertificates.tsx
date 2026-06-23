@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -41,28 +41,15 @@ export default function AdminCertificates() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Form State
-  const [formData, setFormData] = useState({
-    candidateName: "",
-    email: "",
-    internshipTitle: INTERNSHIP_PROGRAMS[0],
-    companyName: "NowScripts Private Limited",
-    issueDate: new Date().toISOString().split('T')[0],
-    startDate: "",
-    endDate: "",
-    mentorName: "",
-  });
 
   // Debounce Search
-  useState(() => {
+  useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchQuery);
       setCurrentPage(1);
     }, 500);
     return () => clearTimeout(handler);
-  });
+  }, [searchQuery]);
 
   // Fetch Certificates
   const fetchCertificates = async (page: number, search: string, status: string) => {
@@ -87,32 +74,6 @@ export default function AdminCertificates() {
   const pagination = data?.pagination;
 
   // Mutations
-  const createMutation = useMutation({
-    mutationFn: async (newCert: any) => {
-      const token = localStorage.getItem("token");
-      return axios.post(`${url}/certificate/create`, newCert, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["adminCertificates"]);
-      handleToast("Certificate issued successfully");
-      setIsModalOpen(false);
-      // Reset form
-      setFormData({
-        ...formData,
-        candidateName: "",
-        email: "",
-        startDate: "",
-        endDate: "",
-        mentorName: "",
-      });
-    },
-    onError: (err: any) => {
-      handleToast(err.response?.data?.message || "Failed to issue certificate");
-    }
-  });
-
   const revokeMutation = useMutation({
     mutationFn: async (id: string) => {
       const token = localStorage.getItem("token");
@@ -130,11 +91,6 @@ export default function AdminCertificates() {
   });
 
   // Handlers
-  const handleCreate = (e: React.FormEvent) => {
-    e.preventDefault();
-    createMutation.mutate(formData);
-  };
-
   const handleExportCSV = () => {
     if (!certificates.length) return handleToast("No data to export");
     
@@ -181,12 +137,12 @@ export default function AdminCertificates() {
             >
               <Download className="w-4 h-4" /> Export CSV
             </button>
-            <button 
-              onClick={() => setIsModalOpen(true)}
+            <a 
+              href="/admin/certificates/studio"
               className="px-5 py-2 bg-now-primary text-white font-semibold rounded-lg shadow-sm hover:bg-now-accent transition flex items-center gap-2"
             >
               <Plus className="w-5 h-5" /> Issue Certificate
-            </button>
+            </a>
           </div>
         </div>
 
@@ -330,70 +286,6 @@ export default function AdminCertificates() {
         </div>
       </div>
 
-      {/* Modal for Issue Certificate */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]"
-          >
-            <div className="px-6 py-4 border-b border-[#E2E8F0] flex items-center justify-between bg-gray-50">
-              <h2 className="text-xl font-bold text-[#0F172A]">Issue New Certificate</h2>
-              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            
-            <div className="p-6 overflow-y-auto">
-              <form id="issue-cert-form" onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="col-span-1 md:col-span-2">
-                  <label className="block text-sm font-semibold text-[#475569] mb-1">Candidate Name</label>
-                  <input required type="text" value={formData.candidateName} onChange={e => setFormData({...formData, candidateName: e.target.value})} className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-now-primary/50 focus:border-now-primary outline-none" />
-                </div>
-                
-                <div className="col-span-1">
-                  <label className="block text-sm font-semibold text-[#475569] mb-1">Email Address</label>
-                  <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-now-primary/50 focus:border-now-primary outline-none" />
-                </div>
-                
-                <div className="col-span-1">
-                  <label className="block text-sm font-semibold text-[#475569] mb-1">Mentor Name</label>
-                  <input required type="text" value={formData.mentorName} onChange={e => setFormData({...formData, mentorName: e.target.value})} className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-now-primary/50 focus:border-now-primary outline-none" />
-                </div>
-
-                <div className="col-span-1 md:col-span-2">
-                  <label className="block text-sm font-semibold text-[#475569] mb-1">Internship Program</label>
-                  <select required value={formData.internshipTitle} onChange={e => setFormData({...formData, internshipTitle: e.target.value})} className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-now-primary/50 focus:border-now-primary outline-none bg-white">
-                    {INTERNSHIP_PROGRAMS.map(prog => (
-                      <option key={prog} value={prog}>{prog}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div className="col-span-1">
-                  <label className="block text-sm font-semibold text-[#475569] mb-1">Start Date</label>
-                  <input required type="date" value={formData.startDate} onChange={e => setFormData({...formData, startDate: e.target.value})} className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-now-primary/50 focus:border-now-primary outline-none" />
-                </div>
-                
-                <div className="col-span-1">
-                  <label className="block text-sm font-semibold text-[#475569] mb-1">End Date</label>
-                  <input required type="date" value={formData.endDate} onChange={e => setFormData({...formData, endDate: e.target.value})} className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-now-primary/50 focus:border-now-primary outline-none" />
-                </div>
-              </form>
-            </div>
-            
-            <div className="px-6 py-4 border-t border-[#E2E8F0] bg-gray-50 flex justify-end gap-3 mt-auto">
-              <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2 border border-[#E2E8F0] text-[#475569] font-semibold rounded-lg hover:bg-gray-100 transition">
-                Cancel
-              </button>
-              <button type="submit" form="issue-cert-form" disabled={createMutation.isLoading} className="px-5 py-2 bg-now-primary text-white font-semibold rounded-lg hover:bg-now-accent transition disabled:opacity-70 flex items-center gap-2">
-                {createMutation.isLoading ? "Issuing..." : "Issue Certificate"}
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 }
