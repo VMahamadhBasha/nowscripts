@@ -1,6 +1,6 @@
 import React from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { NowScriptsOfficialLogo, NowScriptsStamp, HRSignature } from "../../assets/certificate-assets";
+import { HRSignature } from "../../assets/certificate-assets";
 
 export interface CertificateData {
   candidateName: string;
@@ -50,7 +50,7 @@ export const CertificateTemplate = React.forwardRef<HTMLDivElement, { data: Cert
     >
       {/* Header */}
       <div className="flex justify-end mb-4">
-        <NowScriptsOfficialLogo />
+        <img src="/certificate-logo.jpg" alt="NowScripts Logo" className="h-[40px] object-contain mix-blend-multiply" />
       </div>
 
       <div className="text-center mb-10">
@@ -111,7 +111,7 @@ export const CertificateTemplate = React.forwardRef<HTMLDivElement, { data: Cert
         <p className="text-[17px] text-gray-900">For {data.companyName}</p>
         
         <div className="mt-8">
-          <NowScriptsStamp />
+          <img src="/certificate-stamp.jpg" alt="NowScripts Stamp" className="h-[120px] object-contain mix-blend-multiply" />
         </div>
 
         <div className="mt-4">
@@ -120,7 +120,7 @@ export const CertificateTemplate = React.forwardRef<HTMLDivElement, { data: Cert
         </div>
 
         {/* HR Signature Overlay */}
-        <div className="absolute bottom-[80px] left-[150px] opacity-80 pointer-events-none">
+        <div className="absolute bottom-[80px] left-[150px] opacity-80 pointer-events-none mix-blend-multiply">
           <HRSignature />
         </div>
       </div>

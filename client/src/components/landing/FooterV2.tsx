@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import { whiteLogo, twitterIcon, linkedinIcon, facebookIcon } from "../../assets/icons";
 import { MessageSquare } from "lucide-react";
+import { useAuth } from "../../contexts/Auth";
 
 export function FooterV2() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "Admin";
+
   return (
     <footer className="bg-now-background border-t border-gray-800 py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -48,9 +52,10 @@ export function FooterV2() {
           <div>
             <h4 className="font-bold text-white mb-6 uppercase text-sm tracking-wider">Verify Credentials</h4>
             <ul className="space-y-4 text-gray-400 text-sm">
+              {isAdmin && <li><Link to="/admin/certificates/studio" className="hover:text-now-primary transition-colors">Issue Certificate</Link></li>}
               <li><Link to="/verify" className="hover:text-now-primary transition-colors">Verify Certificate</Link></li>
               <li><Link to="/verify" className="hover:text-now-primary transition-colors">Verify Internship</Link></li>
-              <li><a href="mailto:verify@nowscripts.com" className="hover:text-now-primary transition-colors">Contact Verification Team</a></li>
+              {isAdmin && <li><a href="mailto:verify@nowscripts.com" className="hover:text-now-primary transition-colors">Contact Verification Team</a></li>}
             </ul>
           </div>
 
